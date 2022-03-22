@@ -1,0 +1,45 @@
+function read_inputs_from_file(filepath)
+    index = {"A","B","Y","X","Left","Right","Up","Down"}
+    inputs_raw = {}
+    file = io.open(filepath, "rb")
+    i = 1
+    repeat 
+    inputs_raw[i] = file:read("*l")
+    i = i+1
+    until i ==9
+
+    
+    inputs_processed = {}
+    j = 1
+    repeat 
+        for word in string.gmatch(inputs_raw[j],"[^:]+") do
+            inputs_processed[j] = word
+        end
+        j = j+1
+    until j == 9
+    
+    return inputs_processed
+    
+end
+
+-- table = read_inputs_from_file("/Users/fynnmadrian/mAIrio/Lua-Python-Bridge/test_write")
+
+-- var = 1
+-- repeat
+--     print(index[var],table[var])
+--     var = var + 1
+-- until var == 9
+
+function write_outputs_to_file(filepath, outputs)
+    index ={"Mario_x","Mario_y"}
+    file = io.open(filepath, "wb")
+    i = 0
+    repeat
+        i = i+1
+        file:write(index[i],":",outputs[i],"\n")
+    until i == #index
+end
+
+-- test_out = {3,6}
+
+-- write_outputs_to_file("/Users/fynnmadrian/mAIrio/Lua-Python-Bridge/test_read", test_out )
