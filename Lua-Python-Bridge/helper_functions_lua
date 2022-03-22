@@ -19,7 +19,7 @@ function read_inputs_from_file(filepath)
     until j == 9
     
     return inputs_processed
-    
+    io.close()
 end
 
 -- table = read_inputs_from_file("/Users/fynnmadrian/mAIrio/Lua-Python-Bridge/test_write")
@@ -38,6 +38,7 @@ function write_outputs_to_file(filepath, outputs)
         i = i+1
         file:write(index[i],":",outputs[i],"\n")
     until i == #index
+    io.close()
 end
 
 -- test_out = {3,6}
