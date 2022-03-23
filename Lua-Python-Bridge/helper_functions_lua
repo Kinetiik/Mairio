@@ -52,6 +52,12 @@ function get_data()
     return outputs
 
 
-
-
-
+function set_inputs(inputs_processed)
+    input = {}
+    i = 0
+    repeat
+        i = i +1 
+        input[index_inputs[i]] = inputs_processed[i]
+    until i == #index_inputs
+    joypad.set(input)
+    
