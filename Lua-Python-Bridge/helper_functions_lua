@@ -15,14 +15,22 @@ function read_inputs_from_file(filepath)
     inputs_processed = {}
     j = 1
     repeat 
-        for word in string.gmatch(inputs_raw[j],"[^:]+") do
-            inputs_processed[j] = word
+        for word in string.gmatch(inputs_raw[j],"([^:]*)$") do 
+            if word=="True" then
+                inputs_processed[j] = true
+            else 
+                inputs_processed[j] = false
+            end
+            --print(inputs_processed[j])
+            --print(type(inputs_processed[j]))
+            
+            
         end
         j = j+1
+        
     until j == 9
-    
-    return inputs_processed
     io.close()
+    return inputs_processed
 end
 
 
@@ -58,12 +66,13 @@ end
 function test_inputs()
     i = 0
     while i <= 100 do
-        input = {"False","False","False","False","False","True","False","False"}
+        input = {false,false,false,false,false,false,true,false,}
         set_inputs(input)
         emu.frameadvance()
-        input = {"True","False","False","False","False","False","False","False"}
+        input = {true,false,false,false,false,false,false,false,}
         set_inputs(input)
         i = i+1
     end
 end
 
+read_inputs_from_file("/Users/fynnmadrian/mAIrio/Lua-Python-Bridge/inputs")

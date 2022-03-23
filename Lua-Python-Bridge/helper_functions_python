@@ -24,17 +24,17 @@ def write_inputs_to_file(filename: str, inputs: dict):
             file.write('\n')
 
 
-# dictio = {"A": "False",
-#           "B": "False",
-#           "Y": "True",
-#           "X": "False",
-#           "Left": "False",
-#           "Right": "True",
-#           "Up": "False",
-#           "Down": "False"}
+dictio = {"A": False,
+          "B": False,
+          "Y": False,
+          "X": False,
+          "Left": False,
+          "Right": False,
+          "Up": False,
+          "Down": False}
 
-# write_inputs_to_file(
-#     "/Users/fynnmadrian/mAIrio/Lua-Python-Bridge/test_write", dictio)
+write_inputs_to_file(
+    "/Users/fynnmadrian/mAIrio/Lua-Python-Bridge/inputs", dictio)
 # while True:
 #     print(read_outputs_from_file(
 #         "/Users/fynnmadrian/mAIrio/Lua-Python-Bridge/test_read"))
