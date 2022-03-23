@@ -21,7 +21,7 @@ function read_inputs_from_file(filepath)
             else 
                 inputs_processed[j] = false
             end
-            --print(inputs_processed[j])
+            print(inputs_processed[j])
             --print(type(inputs_processed[j]))
             
             
