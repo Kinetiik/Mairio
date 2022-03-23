@@ -1,13 +1,15 @@
 index_outputs ={"Mario_x","Mario_y"}
 index_inputs = {"A","B","Y","X","Left","Right","Up","Down"}
+
+
 function read_inputs_from_file(filepath)
     inputs_raw = {}
     file = io.open(filepath, "rb")
-    i = 1
+    i = 0
     repeat 
+        i = i+1
     inputs_raw[i] = file:read("*l")
-    i = i+1
-    until i ==9
+    until i == #index_inputs
 
     
     inputs_processed = {}
@@ -23,13 +25,6 @@ function read_inputs_from_file(filepath)
     io.close()
 end
 
--- table = read_inputs_from_file("/Users/fynnmadrian/mAIrio/Lua-Python-Bridge/test_write")
-
--- var = 1
--- repeat
---     print(index[var],table[var])
---     var = var + 1
--- until var == 9
 
 function write_outputs_to_file(filepath, outputs)
     file = io.open(filepath, "wb")
@@ -41,16 +36,13 @@ function write_outputs_to_file(filepath, outputs)
     io.close()
 end
 
--- test_out = {3,6}
-
--- write_outputs_to_file("/Users/fynnmadrian/mAIrio/Lua-Python-Bridge/test_read", test_out )
 
 function get_data()
     outputs = {}
     outputs[1] = memory.read_s16_le(0x94)
     outputs[2] = memory.read_s16_le(0x96)
     return outputs
-
+end
 
 function set_inputs(inputs_processed)
     input = {}
@@ -59,5 +51,19 @@ function set_inputs(inputs_processed)
         i = i +1 
         input[index_inputs[i]] = inputs_processed[i]
     until i == #index_inputs
-    joypad.set(input)
-    
+    joypad.set(input,1)
+end
+
+
+function test_inputs()
+    i = 0
+    while i <= 100 do
+        input = {"False","False","False","False","False","True","False","False"}
+        set_inputs(input)
+        emu.frameadvance()
+        input = {"True","False","False","False","False","False","False","False"}
+        set_inputs(input)
+        i = i+1
+    end
+end
+
