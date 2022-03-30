@@ -20,7 +20,7 @@ function read_inputs_from_file(filepath)
             else 
                 inputs_processed[j] = false
             end
-            print(inputs_processed[j])
+            --print(inputs_processed[j])
             --print(type(inputs_processed[j]))
             
             
@@ -46,8 +46,8 @@ end
 
 function get_data()
     outputs = {}
-    outputs[1] = memory.read_s16_le(0x94)
-    outputs[2] = memory.read_s16_le(0x96)
+    outputs[1] = memory.read_s16_le(0x94)   --Mario x
+    outputs[2] = memory.read_s16_le(0x96)   --Mario y
     return outputs
 end
 
@@ -63,13 +63,15 @@ end
 
 
 function test_inputs()
+    --TODO implement loading Rom and Safestate
     i = 0
-    while i <= 100 do
+    while i <= 1000 do
         input = {false,false,false,false,false,false,true,false}
         set_inputs(input)
         emu.frameadvance()
         input = {true,false,false,false,false,false,false,false}
         set_inputs(input)
+        emu.frameadvance()
         i = i+1
     end
 end
