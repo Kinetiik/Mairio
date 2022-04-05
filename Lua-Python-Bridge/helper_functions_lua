@@ -1,6 +1,6 @@
 index_outputs ={"Mario_x","Mario_y"}
 index_inputs = {"A","B","Y","X","Left","Right","Up","Down"}
-
+import SMW-Bizhawk as smw
 
 function read_inputs_from_file(filepath)
     inputs_raw = {}
@@ -77,3 +77,4 @@ function test_inputs()
 end
 
 --read_inputs_from_file("/Users/fynnmadrian/mAIrio/Lua-Python-Bridge/inputs")
+
