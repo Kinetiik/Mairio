@@ -7,25 +7,25 @@ function read_inputs_from_file(filepath)
     file = io.open(filepath, "rb")
     i = 0
     repeat 
-        i = i+1
+    i = i+1
     inputs_raw[i] = file:read("*l")
     until i == #index_inputs
 
     inputs_processed = {}
     j = 1
     repeat 
-        for word in string.gmatch(inputs_raw[j],"([^:]*)$") do 
-            if word=="True" then
-                inputs_processed[j] = true
-            else 
-                inputs_processed[j] = false
-            end
+    for word in string.gmatch(inputs_raw[j],"([^:]*)$") do 
+        if word=="True" then
+            inputs_processed[j] = true
+        else 
+            inputs_processed[j] = false
+        end
             --print(inputs_processed[j])
             --print(type(inputs_processed[j]))
             
             
-        end
-        j = j+1
+    end
+    j = j+1
         
     until j == 9
     io.close()
