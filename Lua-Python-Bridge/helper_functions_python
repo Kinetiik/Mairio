@@ -39,3 +39,5 @@ inputs = {"A": False,
 #     print(read_outputs_from_file(
 #         "/Users/fynnmadrian/mAIrio/Lua-Python-Bridge/outputs"))
 #     time.sleep(5)
+
+# test comment
