@@ -1,5 +1,18 @@
 
 import time
+index_outputs = ["Mario_x_pos", "Mario_y_pos", "Powerup", "Mario_x_speed", "Mario_y_speed", "1-Ups",
+                 "sprite1_number", "sprite1_x_pos", "sprite1_y_pos", "sprite1_x_speed", "sprite1_y_speed",
+                 "sprite2_number", "sprite2_x_pos", "sprite2_y_pos", "sprite2_x_speed", "sprite2_y_speed",
+                 "sprite3_number", "sprite3_x_pos", "sprite3_y_pos", "sprite3_x_speed", "sprite3_y_speed",
+                 "sprite4_number", "sprite4_x_pos", "sprite4_y_pos", "sprite4_x_speed", "sprite4_y_speed",
+                 "sprite5_number", "sprite5_x_pos", "sprite5_y_pos", "sprite5_x_speed", "sprite5_y_speed",
+                 "sprite6_number", "sprite6_x_pos", "sprite6_y_pos", "sprite6_x_speed", "sprite6_y_speed",
+                 "sprite7_number", "sprite7_x_pos", "sprite7_y_pos", "sprite7_x_speed", "sprite7_y_speed",
+                 "sprite8_number", "sprite8_x_pos", "sprite8_y_pos", "sprite8_x_speed", "sprite8_y_speed",
+                 "sprite9_number", "sprite9_x_pos", "sprite9_y_pos", "sprite9_x_speed", "sprite9_y_speed",
+                 "sprite10_number", "sprite10_x_pos", "sprite10_y_pos", "sprite10_x_speed", "sprite10_y_speed",
+                 "sprite11_number", "sprite11_x_pos", "sprite11_y_pos", "sprite11_x_speed", "sprite11_y_speed",
+                 "sprite12_number", "sprite12_x_pos", "sprite12_y_pos", "sprite12_x_speed", "sprite12_y_speed"]
 
 
 def read_outputs_from_file(filename: str) -> dict:
