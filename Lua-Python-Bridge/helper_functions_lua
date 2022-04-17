@@ -352,13 +352,13 @@ function read_inputs_from_file(filepath)
 end
 
 
-function write_outputs_to_file(filepath, outputs)
+function write_outputs_to_file(filepath, outputs, index)
     file = io.open(filepath, "wb")
     i = 0
     repeat
         i = i+1
-        file:write(index_outputs[i],":",outputs[i],"\n")
-    until i == #index_outputs
+        file:write(index[i],":",outputs[i],"\n")
+    until i == #index
     io.close()
 end
 
@@ -418,15 +418,20 @@ function get_tile_data()
     width_in_p = (number_screens+1)*256
     height_in_p = 224
     map_tiles = {}
+    index_tiles={}
     for current_x = 0, width_in_p,16 do 
-        for current_y = 0, height_in_p/16, 16 do
+        for current_y = 0, height_in_p, 16 do
             x,y,kind,_=get_map16_value(current_x,current_y)
-            index = tostring(x,y)
-            map_tiles[index]=kind
+            table.insert(index_tiles,tostring(x,y) )
+            table.insert(map_tiles, kind)
         end
     end
-    return map_tiles
+    return map_tiles,index
 end
+
+map_tiles, index_tiles =get_tile_data()
+write_outputs_to_file("map16",map_tiles,index_tiles)
+
 
 
 
