@@ -27,6 +27,18 @@ def read_outputs_from_file(filename: str) -> dict:
     return outputs
 
 
+def check_for_reset():
+    with open("reset")as file:
+        text = file.readlines()
+        if text == "1":
+            file.close()
+            return True
+        else:
+            file.close()
+            return False
+        
+
+
 def write_inputs_to_file(filename: str, inputs: dict):
     with open(filename, "w") as file:
         lines = []
@@ -45,6 +57,7 @@ inputs = {"A": False,
           "Right": False,
           "Up": False,
           "Down": False}
+
 
 # write_inputs_to_file(
 #     "/Users/fynnmadrian/mAIrio/Lua-Python-Bridge/inputs", dictio)

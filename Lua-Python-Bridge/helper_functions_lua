@@ -397,21 +397,12 @@ function set_inputs(inputs_processed)
     joypad.set(input,1)
 end
 
-
-function test_inputs()
-    --TODO implement loading Rom and Safestate
-    i = 0
-    while i <= 1000 do
-        input = {false,false,false,false,false,false,true,false}
-        set_inputs(input)
-        emu.frameadvance()
-        input = {true,false,false,false,false,false,false,false}
-        set_inputs(input)
-        emu.frameadvance()
-        i = i+1
-    end
+function reset_game()
+    savestate.loadslot(1)
+    reset_file = io.open("reset","wb")
+    reset_file:write(1)
+    io.close()
 end
-
 
 function get_tile_data()
     _, number_screens,_,_,_,_ = read_screens()
@@ -419,6 +410,7 @@ function get_tile_data()
     height_in_p = 224
     map_tiles = {}
     index_tiles={}
+    --check for solid blocks: if kind >= 0x111 and kind <= 0x16d or kind == 0x2b then
     for current_x = 0, width_in_p,16 do 
         for current_y = 0, height_in_p, 16 do
             x,y,kind,_=get_map16_value(current_x,current_y)
@@ -432,8 +424,11 @@ end
 map_tiles, index_tiles =get_tile_data()
 write_outputs_to_file("map16",map_tiles,index_tiles)
 
+function check_for_player_death()
+    state = u8(0x0071)
+    if state == 9 do 
+        reset_game()
+    end
+end
 
-
-
---check for solid blocks: if kind >= 0x111 and kind <= 0x16d or kind == 0x2b then
 
