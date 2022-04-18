@@ -1,19 +1,7 @@
-index_outputs ={"Mario_x_pos","Mario_y_pos","Powerup","Mario_x_speed","Mario_y_speed","1-Ups",
-"sprite1_number","sprite1_x_pos","sprite1_y_pos","sprite1_x_speed","sprite1_y_speed",
-"sprite2_number","sprite2_x_pos","sprite2_y_pos","sprite2_x_speed","sprite2_y_speed",
-"sprite3_number","sprite3_x_pos","sprite3_y_pos","sprite3_x_speed","sprite3_y_speed",
-"sprite4_number","sprite4_x_pos","sprite4_y_pos","sprite4_x_speed","sprite4_y_speed",
-"sprite5_number","sprite5_x_pos","sprite5_y_pos","sprite5_x_speed","sprite5_y_speed",
-"sprite6_number","sprite6_x_pos","sprite6_y_pos","sprite6_x_speed","sprite6_y_speed",
-"sprite7_number","sprite7_x_pos","sprite7_y_pos","sprite7_x_speed","sprite7_y_speed",
-"sprite8_number","sprite8_x_pos","sprite8_y_pos","sprite8_x_speed","sprite8_y_speed",
-"sprite9_number","sprite9_x_pos","sprite9_y_pos","sprite9_x_speed","sprite9_y_speed",
-"sprite10_number","sprite10_x_pos","sprite10_y_pos","sprite10_x_speed","sprite10_y_speed",
-"sprite11_number","sprite11_x_pos","sprite11_y_pos","sprite11_x_speed","sprite11_y_speed",
-"sprite12_number","sprite12_x_pos","sprite12_y_pos","sprite12_x_speed","sprite12_y_speed"} 
 
 index_inputs = {"A","B","Y","X","Left","Right","Up","Down"}
-index_outputs ={"Mario_x_pos","Mario_y_pos","Powerup","Mario_x_speed","Mario_y_speed","1-Ups",
+
+index_outputs ={"Mario_x_pos","Mario_y_pos","camera_x", "camera_y","Powerup","Mario_x_speed","Mario_y_speed","1-Ups",
 "sprite1_number","sprite1_x_pos","sprite1_y_pos","sprite1_x_speed","sprite1_y_speed",
 "sprite2_number","sprite2_x_pos","sprite2_y_pos","sprite2_x_speed","sprite2_y_speed",
 "sprite3_number","sprite3_x_pos","sprite3_y_pos","sprite3_x_speed","sprite3_y_speed",
@@ -368,13 +356,15 @@ function get_data()
     outputs = {}
     outputs[1] = s16(0x94)  --Mario x-pos
     outputs[2] = s16(0x96)  --Mario y-pos
-    outputs[3] = u8(0x0019) --Powerup
-    outputs[4] = s8(0x007b) --Mario X-Speed
-    outputs[5] = s8(0x007d) --Mario Y-Speed
-    outputs[6] = s8(0x0DBE) --TODO current lives -1, test when they are changed
+    outputs[3] = u16(0x1462) --Camera x
+    outputs[4] = u16(0x1464) --Camera y
+    outputs[5] = u8(0x0019) --Powerup
+    outputs[6] = s8(0x007b) --Mario X-Speed
+    outputs[7] = s8(0x007d) --Mario Y-Speed
+    outputs[8] = s8(0x0DBE) --Lives counter
     
     --Sprite data
-    starting_index = 7
+    starting_index = 9
     for slot_id = 0, max_sprites = 11 do -- 12 is the max, minus one
 
         outputs[starting_index+5*slot_id] = u8(WRAM.sprite_number+slot_id) --Sprite number
@@ -421,9 +411,6 @@ function get_tile_data()
     return map_tiles,index
 end
 
-map_tiles, index_tiles =get_tile_data()
-write_outputs_to_file("map16",map_tiles,index_tiles)
-
 function check_for_player_death()
     state = u8(0x0071)
     if state == 9 do 
@@ -431,4 +418,34 @@ function check_for_player_death()
     end
 end
 
+function calculate_reward()
+    reward = (s16(0x94)+u16(0x1462))/level_length
+    return reward
+end
 
+function start_level(level_int = 1)
+    global level_int
+    safestate.loadslot(level_int)
+    _, number_screens,_,_,_,_ = read_screens()
+    global level_length = (number_screens+1)*256
+end
+
+--Main Game Lopp
+
+function start_game()
+    start_level(1)
+    map_tiles, index_tiles = get_tile_data()
+    write_outputs_to_file("map16",map_tiles, index_tiles)
+
+    running = true
+    while running do
+        outputs = get_data()
+        write_outputs_to_file("outputs",outputs, index_outputs)
+        --implement wait for python
+        inputs = read_inputs_from_file("inputs")
+        set_inputs(inputs)
+        emu.frameadvance()
+        reward = calculate_reward()
+        write_outputs_to_file("rewards",reward, {"reward"})
+    end
+end

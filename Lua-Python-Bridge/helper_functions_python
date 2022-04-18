@@ -1,6 +1,6 @@
 
 import time
-index_outputs = ["Mario_x_pos", "Mario_y_pos", "Powerup", "Mario_x_speed", "Mario_y_speed", "1-Ups",
+index_outputs = ["Mario_x_pos", "Mario_y_pos", "camera_x", "camera_y", "Powerup", "Mario_x_speed", "Mario_y_speed", "1-Ups",
                  "sprite1_number", "sprite1_x_pos", "sprite1_y_pos", "sprite1_x_speed", "sprite1_y_speed",
                  "sprite2_number", "sprite2_x_pos", "sprite2_y_pos", "sprite2_x_speed", "sprite2_y_speed",
                  "sprite3_number", "sprite3_x_pos", "sprite3_y_pos", "sprite3_x_speed", "sprite3_y_speed",
@@ -36,7 +36,6 @@ def check_for_reset():
         else:
             file.close()
             return False
-        
 
 
 def write_inputs_to_file(filename: str, inputs: dict):
