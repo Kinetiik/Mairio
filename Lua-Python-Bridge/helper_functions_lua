@@ -400,7 +400,7 @@ function get_tile_data()
     height_in_p = 224
     map_tiles = {}
     index_tiles={}
-    --TODO: check for solid blocks: if kind >= 0x111 and kind <= 0x16d or kind == 0x2b then
+    --TODO: check for solid blocks if needed: if kind >= 0x111 and kind <= 0x16d or kind == 0x2b then
     for current_x = 0, width_in_p,16 do 
         for current_y = 0, height_in_p, 16 do
             x,y,kind,_=get_map16_value(current_x,current_y)

@@ -1,5 +1,5 @@
 from tensorforce import Agent, Environment
-
+# TODO implement reinforcement learning with custom environment
 environment = Environment.create(environment="costum")
 
 agent = Agent.create(
