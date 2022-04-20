@@ -451,7 +451,7 @@ end
 
 --Main Game Lopp
 
-function start_game()
+function start_game() --TODO implement reset and reward system
     start_level(1)
     
     running = true
