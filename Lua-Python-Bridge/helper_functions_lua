@@ -387,8 +387,8 @@ function set_inputs(inputs_processed)
     joypad.set(input,1)
 end
 
-function reset_game()
-    savestate.loadslot(1)
+function reset_game(level_int)
+    start_level(level_int)
     reset_file = io.open("reset","wb")
     reset_file:write(1)
     io.close()
@@ -400,7 +400,7 @@ function get_tile_data()
     height_in_p = 224
     map_tiles = {}
     index_tiles={}
-    --check for solid blocks: if kind >= 0x111 and kind <= 0x16d or kind == 0x2b then
+    --TODO: check for solid blocks: if kind >= 0x111 and kind <= 0x16d or kind == 0x2b then
     for current_x = 0, width_in_p,16 do 
         for current_y = 0, height_in_p, 16 do
             x,y,kind,_=get_map16_value(current_x,current_y)
@@ -414,11 +414,11 @@ end
 function check_for_player_death()
     state = u8(0x0071)
     if state == 9 do 
-        reset_game()
+        reset_game(1)
     end
 end
 
-function calculate_reward()
+function calculate_reward() --TODO test implemenation
     reward = (s16(0x94)+u16(0x1462))/level_length
     return reward
 end
@@ -428,24 +428,41 @@ function start_level(level_int = 1)
     safestate.loadslot(level_int)
     _, number_screens,_,_,_,_ = read_screens()
     global level_length = (number_screens+1)*256
+    map_tiles, index_tiles = get_tile_data()
+    write_outputs_to_file("map16",map_tiles, index_tiles)
 end
+
+
+function wait_for_python()
+    file = io.open("waiting","wb")
+    file:write(1)  --1 = python is executing code, 0 = lua and emulator
+    io.close()
+    file = io.open("waiting","rb")
+    int = file:read()
+
+    while int == 1 do 
+        int = file:read()
+    end
+    io.close()
+end
+
+
+
 
 --Main Game Lopp
 
 function start_game()
     start_level(1)
-    map_tiles, index_tiles = get_tile_data()
-    write_outputs_to_file("map16",map_tiles, index_tiles)
-
+    
     running = true
     while running do
         outputs = get_data()
         write_outputs_to_file("outputs",outputs, index_outputs)
-        --implement wait for python
+        wait_for_python()
         inputs = read_inputs_from_file("inputs")
         set_inputs(inputs)
         emu.frameadvance()
-        reward = calculate_reward()
-        write_outputs_to_file("rewards",reward, {"reward"})
+        --reward = calculate_reward()
+        --write_outputs_to_file("rewards",reward, {"reward"})
     end
 end

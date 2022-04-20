@@ -1,5 +1,14 @@
 
 import time
+inputs = {"A": False,
+          "B": False,
+          "Y": False,
+          "X": False,
+          "Left": False,
+          "Right": False,
+          "Up": False,
+          "Down": False}
+
 index_outputs = ["Mario_x_pos", "Mario_y_pos", "camera_x", "camera_y", "Powerup", "Mario_x_speed", "Mario_y_speed", "1-Ups",
                  "sprite1_number", "sprite1_x_pos", "sprite1_y_pos", "sprite1_x_speed", "sprite1_y_speed",
                  "sprite2_number", "sprite2_x_pos", "sprite2_y_pos", "sprite2_x_speed", "sprite2_y_speed",
@@ -46,16 +55,18 @@ def write_inputs_to_file(filename: str, inputs: dict):
         for line in lines:
             file.write(line)
             file.write('\n')
+    file.close()
 
 
-inputs = {"A": False,
-          "B": False,
-          "Y": False,
-          "X": False,
-          "Left": False,
-          "Right": False,
-          "Up": False,
-          "Down": False}
+def wait_for_lua():
+    with open("waiting", "w") as file:
+        file.write(0)
+    file.close()
+    with open("waiting", "r") as file:
+        int = file.read()
+        while int == 0:
+            int = file.read()
+    file.close()
 
 
 # write_inputs_to_file(
