@@ -59,10 +59,10 @@ def write_inputs_to_file(filename: str, inputs: dict):
 
 
 def wait_for_lua():
-    with open("waiting", "w") as file:
+    with open("data/waiting", "w") as file:
         file.write(0)  # 1 = python is executing code, 0 = lua and emulator
     file.close()
-    with open("waiting", "r") as file:
+    with open("data/waiting", "r") as file:
         int = file.read()
         while int == 0:
             int = file.read()
