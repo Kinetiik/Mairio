@@ -387,8 +387,8 @@ function set_inputs(inputs_processed)
     joypad.set(input,1)
 end
 
-function reset_game(level_int)
-    start_level(level_int)
+function reset_game()
+    start_level(current_level)
     reset_file = io.open("data/reset","wb")
     reset_file:write(1)
     io.close()
@@ -414,7 +414,9 @@ end
 function check_for_player_death()
     state = u8(0x0071)
     if state == 9 do 
-        reset_game(1)
+        return true
+    else
+        return false
     end
 end
 
@@ -423,9 +425,9 @@ function calculate_reward() --TODO test implemenation
     return reward
 end
 
-function start_level(level_int = 1)
-    global level_int
-    safestate.loadslot(level_int)
+function start_level()
+    global current_level
+    safestate.loadslot(current_level)
     _, number_screens,_,_,_,_ = read_screens()
     global level_length = (number_screens+1)*256
     map_tiles, index_tiles = get_tile_data()
@@ -439,7 +441,6 @@ function wait_for_python()
     io.close()
     file = io.open("data/waiting","rb")
     int = file:read()
-
     while int == 1 do 
         int = file:read()
     end
@@ -451,9 +452,9 @@ end
 
 --Main Game Lopp
 
-function start_game() --TODO implement reset and reward system
-    start_level(1)
-    
+function start_game() 
+    global current_level = 1 --TODO create safeslots in emulator
+    start_level()
     running = true
     while running do
         outputs = get_data()
@@ -462,7 +463,10 @@ function start_game() --TODO implement reset and reward system
         inputs = read_inputs_from_file("data/inputs")
         set_inputs(inputs)
         emu.frameadvance()
-        --reward = calculate_reward()
-        --write_outputs_to_file("rewards",reward, {"reward"})
+        if check_for_player_death() do 
+            reward = calculate_reward()
+            write_outputs_to_file("data/rewards",reward, {"reward"})
+            reset_game(current_level)
+            --TODO Implement finished level trigger and advance level accordingly
     end
 end
