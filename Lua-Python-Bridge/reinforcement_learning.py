@@ -1,30 +1,11 @@
-from tensorforce import Agent, Environment
-# TODO implement reinforcement learning with custom environment
-environment = Environment.create(environment="costum")
+import keras
+import numpy as np
 
-agent = Agent.create(
-    agent='tensorforce',
-    # alternatively: states, actions, (max_episode_timesteps)
-    environment=environment,
-    memory=10000,
-    update=dict(unit='timesteps', batch_size=64),
-    optimizer=dict(type='adam', learning_rate=3e-4),
-    policy=dict(network='auto'),
-    objective='policy_gradient',
-    reward_estimation=dict(horizon=20)
-)
-
-for _ in range(3000):
-
-    # Initialize episode
-    states = environment.reset()
-    terminal = False
-
-    while not terminal:
-        # Episode timestep
-        actions = agent.act(states=states)
-        states, terminal, reward = environment.execute(actions=actions)
-        agent.observe(terminal=terminal, reward=reward)
-
-agent.close()
-environment.close()
+# Configuration parameters for the whole setup
+seed = os.time()
+gamma = 0.99  # Discount factor for past rewards
+max_steps_per_episode = 10000
+env = gym.make("CartPole-v0")  # Create the environment
+env.seed(seed)
+# Smallest number such that 1.0 + eps != 1.0
+eps = np.finfo(np.float32).eps.item()

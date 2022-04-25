@@ -69,7 +69,9 @@ def wait_for_lua():
     file.close()
 
 
+print("test")
 # write_inputs_to_file(
+
 #     "/Users/fynnmadrian/mAIrio/Lua-Python-Bridge/inputs", dictio)
 # while True:
 #     print(read_outputs_from_file(

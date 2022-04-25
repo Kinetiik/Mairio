@@ -470,3 +470,12 @@ function start_game()
             --TODO Implement finished level trigger and advance level accordingly
     end
 end
+
+
+map_tiles, index_tiles = get_tile_data()
+write_outputs_to_file("data/map16",map_tiles, index_tiles)
+
+while true do 
+    print(calculate_reward())
+    emu.frameadvance()
+end
