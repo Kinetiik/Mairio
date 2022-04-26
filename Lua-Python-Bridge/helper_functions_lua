@@ -398,7 +398,7 @@ end
 
 function get_tile_data()
     _, number_screens,_,_,_,v_screens = read_screens()
-    width_in_p = (number_screens+1)*256
+    width_in_p = (number_screens+1)*512
     height_in_p = (v_screens+1)*224
     map_tiles = {}
     index_tiles={}
@@ -430,7 +430,7 @@ end
 
 function calculate_reward() 
     _, number_screens,_,_,_,_ = read_screens()
-    level_length=(number_screens+1)*256
+    level_length=(number_screens+1)*512
     reward = (s16(0x94)+u16(0x1462))/level_length
     return reward
 end
@@ -480,13 +480,7 @@ function start_game()
     end
 end
 
-start_level(1)
-
-print(u8(WRAM.hscreen_number))
-
-print(u8(WRAM.vscreen_number))
-
---while true do 
-    --print(calculate_reward(level_length))
-    --emu.frameadvance()
---end
+while true do 
+    print(calculate_reward(level_length))
+    emu.frameadvance()
+end
