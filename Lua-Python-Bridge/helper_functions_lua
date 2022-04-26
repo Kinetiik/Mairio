@@ -345,7 +345,9 @@ function write_outputs_to_file(filepath, outputs, index)
     i = 0
     repeat
         i = i+1
-        file:write(index[i],":",outputs[i],"\n")
+        if outputs[i] ~= nil then
+            file:write(index[i],":",outputs[i],"\n")
+        end
     until i == #index
     io.close()
 end
@@ -365,8 +367,8 @@ function get_data()
     
     --Sprite data
     starting_index = 9
-    for slot_id = 0, max_sprites = 11 do -- 12 is the max, minus one
-
+    max_sprites = 11 -- 12 is the max, minus one
+    for slot_id = 0,max_sprites,1 do
         outputs[starting_index+5*slot_id] = u8(WRAM.sprite_number+slot_id) --Sprite number
         outputs[starting_index+1+5*slot_id] = 256*u8(WRAM.sprite_x_high+slot_id)+u8(WRSM.sprite_x_low+slot_id) --sprite pos x
         outputs[starting_index+2+5*slot_id] = 256*u8(WRAM.sprite_y_high+slot_id) + u8(WRAM.sprite_y_low+slot_id) --sprite pos y
@@ -395,42 +397,48 @@ function reset_game()
 end
 
 function get_tile_data()
-    _, number_screens,_,_,_,_ = read_screens()
+    _, number_screens,_,_,_,v_screens = read_screens()
     width_in_p = (number_screens+1)*256
-    height_in_p = 224
+    height_in_p = (v_screens+1)*224
     map_tiles = {}
     index_tiles={}
+    i = 0
     --TODO: check for solid blocks if needed: if kind >= 0x111 and kind <= 0x16d or kind == 0x2b then
     for current_x = 0, width_in_p,16 do 
         for current_y = 0, height_in_p, 16 do
+            i = i+1
             x,y,kind,_=get_map16_value(current_x,current_y)
-            table.insert(index_tiles,tostring(x,y) )
-            table.insert(map_tiles, kind)
+            x = tostring(x)
+            y= tostring(y)
+            coordinate = x .. "x" .. y
+            table.insert(index_tiles,i,coordinate)
+            table.insert(map_tiles,i, kind)
         end
     end
-    return map_tiles,index
+    
+    return map_tiles,index_tiles
 end
 
 function check_for_player_death()
     state = u8(0x0071)
-    if state == 9 do 
+    if state == 9 then
         return true
     else
         return false
     end
 end
 
-function calculate_reward() --TODO test implemenation
+function calculate_reward() 
+    _, number_screens,_,_,_,_ = read_screens()
+    level_length=(number_screens+1)*256
     reward = (s16(0x94)+u16(0x1462))/level_length
     return reward
 end
 
-function start_level()
-    global current_level
-    safestate.loadslot(current_level)
-    _, number_screens,_,_,_,_ = read_screens()
-    global level_length = (number_screens+1)*256
+function start_level(current_level)
+    --safestate.loadslot(current_level) --TODO figure out "nil"-error when tryting to load safestate
     map_tiles, index_tiles = get_tile_data()
+    print(index_tiles)
     write_outputs_to_file("data/map16",map_tiles, index_tiles)
 end
 
@@ -453,8 +461,8 @@ end
 --Main Game Lopp
 
 function start_game() 
-    global current_level = 1 --TODO create safeslots in emulator
-    start_level()
+    current_level = 1 
+    start_level(current_level)
     running = true
     while running do
         outputs = get_data()
@@ -463,19 +471,22 @@ function start_game()
         inputs = read_inputs_from_file("data/inputs")
         set_inputs(inputs)
         emu.frameadvance()
-        if check_for_player_death() do 
+        if check_for_player_death() then
             reward = calculate_reward()
             write_outputs_to_file("data/rewards",reward, {"reward"})
             reset_game(current_level)
             --TODO Implement finished level trigger and advance level accordingly
+        end
     end
 end
 
+start_level(1)
 
-map_tiles, index_tiles = get_tile_data()
-write_outputs_to_file("data/map16",map_tiles, index_tiles)
+print(u8(WRAM.hscreen_number))
 
-while true do 
-    print(calculate_reward())
-    emu.frameadvance()
-end
+print(u8(WRAM.vscreen_number))
+
+--while true do 
+    --print(calculate_reward(level_length))
+    --emu.frameadvance()
+--end
