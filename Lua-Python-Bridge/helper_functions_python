@@ -39,7 +39,7 @@ def read_outputs_from_file(filename: str) -> dict:
 def check_for_reset():
     with open("reset")as file:
         text = file.readlines()
-        if text == "1":
+        if text == "1":  # TODO reset the text to 0 after reset
             file.close()
             return True
         else:
@@ -67,13 +67,3 @@ def wait_for_lua():
         while int == 0:
             int = file.read()
     file.close()
-
-
-print("test")
-# write_inputs_to_file(
-
-#     "/Users/fynnmadrian/mAIrio/Lua-Python-Bridge/inputs", dictio)
-# while True:
-#     print(read_outputs_from_file(
-#         "/Users/fynnmadrian/mAIrio/Lua-Python-Bridge/outputs"))
-#     time.sleep(5)

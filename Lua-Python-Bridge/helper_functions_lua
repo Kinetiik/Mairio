@@ -436,7 +436,7 @@ function calculate_reward()
 end
 
 function start_level(current_level)
-    --safestate.loadslot(current_level) --TODO figure out "nil"-error when tryting to load safestate
+    savestate.loadslot(current_level) 
     map_tiles, index_tiles = get_tile_data()
     print(index_tiles)
     write_outputs_to_file("data/map16",map_tiles, index_tiles)
