@@ -339,7 +339,6 @@ function read_inputs_from_file(filepath)
     return inputs_processed
 end
 
-
 function write_outputs_to_file(filepath, outputs, index)
     file = io.open(filepath, "wb")
     i = 0
@@ -351,7 +350,6 @@ function write_outputs_to_file(filepath, outputs, index)
     until i == #index
     io.close()
 end
-
 
 function get_data()
     --Player data
@@ -403,7 +401,7 @@ function get_tile_data()
     map_tiles = {}
     index_tiles={}
     i = 0
-    --TODO: check for solid blocks if needed: if kind >= 0x111 and kind <= 0x16d or kind == 0x2b then
+    -- check for solid blocks if needed: if kind >= 0x111 and kind <= 0x16d or kind == 0x2b then
     for current_x = 0, width_in_p,16 do 
         for current_y = 0, height_in_p, 16 do
             i = i+1
@@ -441,7 +439,6 @@ function start_level(current_level)
     print(index_tiles)
     write_outputs_to_file("data/map16",map_tiles, index_tiles)
 end
-
 
 function wait_for_python()
     file = io.open("data/waiting","wb")
