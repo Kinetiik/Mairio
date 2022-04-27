@@ -479,8 +479,3 @@ function start_game()
         end
     end
 end
-
-while true do 
-    print(calculate_reward(level_length))
-    emu.frameadvance()
-end
