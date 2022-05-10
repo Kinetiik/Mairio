@@ -9,5 +9,3 @@ env = gym.make("CartPole-v0")  # Create the environment
 env.seed(seed)
 # Smallest number such that 1.0 + eps != 1.0
 eps = np.finfo(np.float32).eps.item()
-
-
