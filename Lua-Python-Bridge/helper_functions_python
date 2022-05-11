@@ -1,5 +1,6 @@
 
 import time
+import numpy as np
 inputs = {"A": False,
           "B": False,
           "Y": False,
@@ -32,6 +33,21 @@ def read_outputs_from_file(filename: str) -> dict:
             split_string = line.split(":")
             split_string[0] = split_string[0].strip("/n")
             outputs[split_string[0]] = int(split_string[1])
+    file.close()
+    return outputs
+
+
+def read_map_data():
+    outputs = np.zeros(16, 12)
+    with open("data/map16") as file:
+        file_readout = file.readlines()
+        for line in file_readout:
+            split_coordinates_and_data = line.split(":")
+            coordinates = split_coordinates_and_data[0].split("-")
+            x = coordinates[0]
+            y = coordinates[1]
+            tile_kind = split_coordinates_and_data[1]
+            outputs[x][y] = tile_kind
     file.close()
     return outputs
 
