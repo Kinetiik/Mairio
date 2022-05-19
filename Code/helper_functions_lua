@@ -335,22 +335,20 @@ function read_inputs_from_file(filepath)
     j = j+1
         
     until j == 9
-    io.close()
+    file:close()
     return inputs_processed
 end
 
 function write_outputs_to_file(filepath, outputs, index)
-    file = io.open(filepath, "w+")
-    io.close
     file = io.open(filepath, "wb")
     i = 0
     repeat
         i = i+1
         if outputs[i] ~= nil then
-            file:append(index[i],":",outputs[i],"\n")
+            file:write(index[i],":",outputs[i],"\n")
         end
     until i == #index
-    io.close()
+    file:close()
 end
 
 function get_data()
@@ -393,7 +391,7 @@ function reset_game()
     start_level(current_level)
     reset_file = io.open("data/reset","wb")
     reset_file:write(1)
-    io.close()
+    file:close()
 end
 
 function get_tile_data()
