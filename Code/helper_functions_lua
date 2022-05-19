@@ -484,3 +484,10 @@ function start_game()
         end
     end
 end
+
+
+outputs = get_data()
+write_outputs_to_file("data/outputs",outputs, index_outputs)
+map_data,index_tiles = get_tile_data()
+write_outputs_to_file("data/map16", map_data, index_tiles)
+    
