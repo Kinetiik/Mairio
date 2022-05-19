@@ -38,7 +38,7 @@ def read_outputs_from_file(filename: str) -> dict:
 
 
 def get_data_grid():
-    data_grid = np.zeros((16, 12, 2))
+    data_grid = np.full((16, 12, 2), -1)
     with open("Code/data/map16") as file:
         file_readout = file.readlines()
         for line in file_readout:
@@ -47,16 +47,15 @@ def get_data_grid():
             x = coordinates[0]
             y = coordinates[1]
             tile_kind = split_coordinates_and_data[1]
-            outputs[x][y][0] = tile_kind
+            np.put(data_grid, [x, y, 0], tile_kind)
+
     file.close()
     with open("Code/data/outputs") as file:
         file_readout = file.readlines()
-        i = 0
         data = []
         for line in file_readout:
             split_string = line.split(":")
-            data[i] = split_string[1]
-            i += 1
+            data.append(int(split_string[1].strip("/n")))
     file.close()
 
     global cam_x
@@ -69,12 +68,12 @@ def get_data_grid():
     data_grid[mario_x][mario_y][1] = 123  # TODO: Implement correct IDS
 
     for i in range(12):
-        data[6+(3*i)] = sprite_number
-        data[7+(3*i)] = sprite_x
-        data[8+(3*i)] = sprite_y
+        sprite_number = data[4+(3*i)]
+        sprite_x = data[5+(3*i)]
+        sprite_y = data[6+(3*i)]
         relative_x, relative_y = convert_to_relativ_coordinates(
             sprite_x, sprite_y)
-        data_grid[relative_x][relative_y][1] = sprite_number
+        np.put(data_grid, [relative_x, relative_y, 1], sprite_number)
 
     return data_grid
 
@@ -116,3 +115,6 @@ def wait_for_lua():
         while int == 0:
             int = file.read()
     file.close()
+
+
+print(get_data_grid())
