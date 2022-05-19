@@ -416,7 +416,7 @@ function get_tile_data()
                 table.insert(map_tiles,i, kind)
             else
                 table.insert(index_tiles,i,coordinate)
-                table.insert(map_tiles,i, 0)
+                table.insert(map_tiles,i, -1)
             end
         end
     end
