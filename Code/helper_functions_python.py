@@ -94,7 +94,7 @@ def convert_to_relativ_coordinates(x, y):
 
 
 def check_for_reset():
-    with open("reset")as file:
+    with open("Code/data/reset")as file:
         text = file.readlines()
         if text == "1":  # TODO reset the text to 0 after reset
             file.close()
@@ -125,6 +125,12 @@ def wait_for_lua():
             int = file.read()
     file.close()
 
+
+def get_reward():
+    with open("data/rewards", "r") as file:
+        reward = file.read()
+    file.close()
+    return reward
 
 # tile_grid, sprite_grid, mario_pos = get_data_grid()
 # plt.imshow(sprite_grid)
