@@ -123,7 +123,7 @@ def wait_for_lua():
     file.close()
 
 
-tile_grid, sprite_grid = get_data_grid()
-plt.imshow(tile_grid)
-print(tile_grid)
-plt.show()
+# tile_grid, sprite_grid = get_data_grid()
+# plt.imshow(tile_grid)
+# print(tile_grid)
+# plt.show()
