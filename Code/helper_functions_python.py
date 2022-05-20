@@ -126,14 +126,7 @@ def wait_for_lua():
     file.close()
 
 
-<<<<<<< HEAD:Code/helper_functions_python.py
-# tile_grid, sprite_grid = get_data_grid()
-# plt.imshow(tile_grid)
-# print(tile_grid)
+# tile_grid, sprite_grid, mario_pos = get_data_grid()
+# plt.imshow(sprite_grid)
+# print(sprite_grid)
 # plt.show()
-=======
-tile_grid, sprite_grid, mario_pos = get_data_grid()
-plt.imshow(sprite_grid)
-print(sprite_grid)
-plt.show()
->>>>>>> 3521bfbeb347fd429a8e4dcd9a7017c521772e28:Code/helper_functions_python
