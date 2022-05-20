@@ -2,6 +2,7 @@
 import time
 import numpy as np
 import matplotlib.pyplot as plt
+import math
 inputs = {"A": False,
           "B": False,
           "Y": False,
@@ -39,8 +40,8 @@ def read_outputs_from_file(filename: str) -> dict:
 
 
 def get_data_grid():
-    tile_grid = np.full((14, 16), -1)
-    sprite_grid = np.full((14, 16), -1)
+    tile_grid = np.full((14, 16), -100)
+    sprite_grid = np.full((14, 16), -100)
     with open("Code/data/map16") as file:
         file_readout = file.readlines()
         for line in file_readout:
@@ -49,7 +50,6 @@ def get_data_grid():
             x = int(coordinates[0])
             y = int(coordinates[1])
             tile_kind = split_coordinates_and_data[1]
-            print(coordinates, tile_kind)
             try:
                 tile_grid[y, x] = tile_kind
             except IndexError:
@@ -69,24 +69,27 @@ def get_data_grid():
     cam_x = data[2]
     cam_y = data[3]
     mario_x, mario_y = convert_to_relativ_coordinates(
-        data[0], data[1])
-
+        data[0]+16, data[1]+16)
+    mario_pos = np.array((mario_x, mario_y))
     # TODO: Implement correct IDS
-    np.put(sprite_grid, (mario_x, mario_y), 123)
+    #sprite_grid[mario_y, mario_x] = 123
     for i in range(12):
         sprite_number = data[4+(3*i)]
         sprite_x = data[5+(3*i)]
         sprite_y = data[6+(3*i)]
         relative_x, relative_y = convert_to_relativ_coordinates(
             sprite_x, sprite_y)
-        np.put(sprite_grid, [relative_x, relative_y], sprite_number)
+        try:
+            sprite_grid[relative_y, relative_x] = sprite_number
+        except IndexError:  # enemys which are offscreen
+            continue
 
-    return tile_grid, sprite_grid
+    return tile_grid, sprite_grid, mario_pos
 
 
 def convert_to_relativ_coordinates(x, y):
-    relative_x = round(((x-cam_x)/16))
-    relative_y = round(((y-cam_y)/16))
+    relative_x = math.floor(((x-cam_x)/16))
+    relative_y = math.floor(((y-cam_y)/16))
     return relative_x, relative_y
 
 
@@ -123,7 +126,14 @@ def wait_for_lua():
     file.close()
 
 
+<<<<<<< HEAD:Code/helper_functions_python.py
 # tile_grid, sprite_grid = get_data_grid()
 # plt.imshow(tile_grid)
 # print(tile_grid)
 # plt.show()
+=======
+tile_grid, sprite_grid, mario_pos = get_data_grid()
+plt.imshow(sprite_grid)
+print(sprite_grid)
+plt.show()
+>>>>>>> 3521bfbeb347fd429a8e4dcd9a7017c521772e28:Code/helper_functions_python

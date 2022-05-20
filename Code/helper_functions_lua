@@ -28,6 +28,11 @@ local s32 = memory.read_s32_le
 local w32 = memory.write_u32_le
 local fmt = string.format
 
+function signed16(num)
+  local maxval = 32768
+  if num < maxval then return num else return num - 2*maxval end
+end
+
 package.path = "bizhawk/scripts/lib/?.lua" .. ";" .. package.path
 local gui, input, joypad, emu, movie, memory, mainmemory, bit = gui, input, joypad, emu, movie, memory, mainmemory, bit
 local WRAM = {
@@ -344,9 +349,9 @@ function write_outputs_to_file(filepath, outputs, index)
     i = 0
     repeat
         i = i+1
-        if outputs[i] ~= nil then
+        --if outputs[i] ~= nil then
             file:write(index[i],":",outputs[i],"\n")
-        end
+        --end
     until i == #index
     file:close()
 end
@@ -366,18 +371,18 @@ function get_data()
     --Sprite data
     starting_index = 5
     max_sprites = 11 -- 12 is the max, minus one
-    for slot_id = 0,max_sprites,1 do
-        slot_number = u8(WRAM.sprite_number+slot_id)
-        outputs[starting_index+(3*slot_id)] = slot_number --Sprite number
-        outputs[starting_index+1+(3*slot_id)] = 256*u8(WRAM.sprite_x_high+slot_id)+u8(WRAM.sprite_x_low+slot_id) --sprite pos x
-        outputs[starting_index+2+(3*slot_id)] = 256*u8(WRAM.sprite_y_high+slot_id) + u8(WRAM.sprite_y_low+slot_id) --sprite pos y
+    for slot = 0,max_sprites,1 do
+        slot_number = u8(WRAM.sprite_number+slot)
+        outputs[starting_index+(3*slot)] = slot_number --Sprite number
+        outputs[starting_index+1+(3*slot)] =  signed16(256*u8(WRAM.sprite_x_high + slot) + u8(WRAM.sprite_x_low + slot)) --sprite pos x
+        outputs[starting_index+2+(3*slot)] = signed16(256*u8(WRAM.sprite_y_high + slot) + u8(WRAM.sprite_y_low + slot)) --sprite pos y
         -- outputs[starting_index+3+(5*slot_id)] = u8(WRAM.sprite_x_speed+slot_id) --sprite speed x
         -- outputs[starting_index+4+(5*slot_id)] = u8(WRAM.sprite_y_speed+slot_id) --sprite speed y
         if slot_number ==0 then
-            outputs[starting_index+(3*slot_id)] = -100
+            outputs[starting_index+(3*slot)] = -100
         end
     end
-
+    print(outputs)
     return outputs
 end
 
@@ -417,7 +422,7 @@ function get_tile_data()
             coordinate = x .. "-" .. y
             if kind >= 0x111 and kind <= 0x16d or kind == 0x2b then
                 table.insert(index_tiles,i,coordinate)
-                table.insert(map_tiles,i, -2)
+                table.insert(map_tiles,i, -100)
             else
                 table.insert(index_tiles,i,coordinate)
                 table.insert(map_tiles,i, kind)
@@ -498,3 +503,4 @@ write_outputs_to_file("data/outputs",outputs, index_outputs)
 map_data,index_tiles = get_tile_data()
 write_outputs_to_file("data/map16", map_data, index_tiles)
 print("done")
+client.pause()
