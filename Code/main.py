@@ -6,11 +6,11 @@ def start_game():
     running = True
     while running:
         if not check_for_reset():
-            data = get_data_grid()
+            tile_data, sprite_data, player_position = get_data_grid()
             # get output from environment and return inputs
             write_inputs_to_file("data/inputs", inputs)
-            reward = get_reward()
             wait_for_lua()
+            reward = get_reward()
         else:
             # reset environment and client
             pass
