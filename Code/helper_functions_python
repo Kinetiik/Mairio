@@ -39,18 +39,21 @@ def read_outputs_from_file(filename: str) -> dict:
 
 
 def get_data_grid():
-    tile_grid = np.full((12, 16), -1)
-    sprite_grid = np.full((12, 16), -1)
+    tile_grid = np.full((14, 16), -1)
+    sprite_grid = np.full((14, 16), -1)
     with open("Code/data/map16") as file:
         file_readout = file.readlines()
         for line in file_readout:
             split_coordinates_and_data = line.split(":")
             coordinates = split_coordinates_and_data[0].split("-")
-            x = coordinates[0]
-            y = coordinates[1]
+            x = int(coordinates[0])
+            y = int(coordinates[1])
             tile_kind = split_coordinates_and_data[1]
             print(coordinates, tile_kind)
-            np.put(tile_grid, (x, y), tile_kind)
+            try:
+                tile_grid[y, x] = tile_kind
+            except IndexError:
+                print("indexerror")
 
     file.close()
     with open("Code/data/outputs") as file:

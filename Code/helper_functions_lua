@@ -405,7 +405,7 @@ function get_tile_data()
     i = 0
     -- check for solid blocks if needed: if kind >= 0x111 and kind <= 0x16d or kind == 0x2b then
     for current_x = 8, 248,16 do 
-        for current_y = 8, 184, 16 do
+        for current_y = 8, 216, 16 do
             i = i+1
             _,_,kind,_=get_map16_value(current_x+cam_x,current_y+cam_y) 
             x = tostring(math.floor((current_x)/16))
