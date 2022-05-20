@@ -411,12 +411,12 @@ function get_tile_data()
             x = tostring(math.floor((current_x)/16))
             y= tostring(math.floor((current_y)/16))
             coordinate = x .. "-" .. y
-            if kind  ~= 37 and kind >= 0x111 and kind <= 0x16d or kind == 0x2b then
+            if kind >= 0x111 and kind <= 0x16d or kind == 0x2b then
                 table.insert(index_tiles,i,coordinate)
-                table.insert(map_tiles,i, kind)
+                table.insert(map_tiles,i, -2)
             else
                 table.insert(index_tiles,i,coordinate)
-                table.insert(map_tiles,i, -1)
+                table.insert(map_tiles,i, kind)
             end
         end
     end
