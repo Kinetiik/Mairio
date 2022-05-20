@@ -379,7 +379,7 @@ function get_data()
         -- outputs[starting_index+3+(5*slot_id)] = u8(WRAM.sprite_x_speed+slot_id) --sprite speed x
         -- outputs[starting_index+4+(5*slot_id)] = u8(WRAM.sprite_y_speed+slot_id) --sprite speed y
         if slot_number ==0 then
-            outputs[starting_index+(3*slot_id)] = -100
+            outputs[starting_index+(3*slot)] = -100
         end
     end
     print(outputs)
