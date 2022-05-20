@@ -51,7 +51,7 @@ def get_data_grid():
             y = int(coordinates[1])
             tile_kind = split_coordinates_and_data[1]
             try:
-                tile_grid[y, x] = tile_kind
+                tile_grid[y, x] = tile_kind  # TODO Filter "empty" tiles
             except IndexError:
                 print("indexerror")
 
@@ -133,6 +133,6 @@ def get_reward():
     return reward
 
 # tile_grid, sprite_grid, mario_pos = get_data_grid()
-# plt.imshow(sprite_grid)
+# plt.imshow(tile_grid)
 # print(sprite_grid)
 # plt.show()
