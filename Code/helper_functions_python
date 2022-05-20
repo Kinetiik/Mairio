@@ -1,6 +1,7 @@
 
 import time
 import numpy as np
+import matplotlib.pyplot as plt
 inputs = {"A": False,
           "B": False,
           "Y": False,
@@ -38,7 +39,7 @@ def read_outputs_from_file(filename: str) -> dict:
 
 
 def get_data_grid():
-    data_grid = np.full((16, 12, 2), -1)
+    data_grid = np.full((12, 16, 2), -1)
     with open("Code/data/map16") as file:
         file_readout = file.readlines()
         for line in file_readout:
@@ -117,4 +118,8 @@ def wait_for_lua():
     file.close()
 
 
-print(get_data_grid())
+grid = get_data_grid()
+result = grid[:, :, 0]
+print(result)
+plt.imshow(result)
+plt.show()
