@@ -404,7 +404,7 @@ function get_tile_data()
     cam_y = (math.floor(cam_y/16))*16
     i = 0
     -- check for solid blocks if needed: if kind >= 0x111 and kind <= 0x16d or kind == 0x2b then
-    for current_x = 8, 2448,16 do 
+    for current_x = 8, 248,16 do 
         for current_y = 8, 184, 16 do
             i = i+1
             _,_,kind,_=get_map16_value(current_x+cam_x,current_y+cam_y) 
@@ -493,4 +493,4 @@ outputs = get_data()
 write_outputs_to_file("data/outputs",outputs, index_outputs)
 map_data,index_tiles = get_tile_data()
 write_outputs_to_file("data/map16", map_data, index_tiles)
-    
+print("done")
