@@ -19,13 +19,11 @@ def start_game():
             write_inputs_to_file("Code/data/inputs", inputs)
             wait_for_lua()
             reward = get_reward()
-            print("done")
+
         else:
             # reset environment and client
             pass
 
 
 if __name__ == "__main__":
-    # start_game()
-    wait_for_lua()
-    print("done2")
+    start_game()

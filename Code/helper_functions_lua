@@ -459,7 +459,8 @@ function wait_for_python()
     io.close()
     file = io.open("data/waiting","rb")
     int = file:read()
-    while int == 1 do  --TODO fix waiting function
+    while int == "1" do  --TODO fix waiting function
+    
         int = file:read()
     end
     io.close()
