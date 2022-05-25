@@ -116,18 +116,20 @@ def write_inputs_to_file(filename: str, inputs: dict):
 
 
 def wait_for_lua():
-    with open("data/waiting", "w") as file:
-        file.write(0)  # 1 = python is executing code, 0 = lua and emulator
+    with open("Code/data/waiting", "w") as file:
+        file.write("0")  # 1 = python is executing code, 0 = lua and emulator
     file.close()
-    with open("data/waiting", "r") as file:
-        int = file.read()
-        while int == 0:
-            int = file.read()
-    file.close()
+    with open("Code/data/waiting", "r") as file2:
+        value = file2.read()
+        while value == "0":
+            file2.seek(0)
+            value = file2.read()
+
+    file2.close()
 
 
 def get_reward():
-    with open("data/rewards", "r") as file:
+    with open("Code/data/rewards", "r") as file:
         reward = file.read()
     file.close()
     return reward
