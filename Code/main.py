@@ -1,5 +1,7 @@
-from helper_functions_python import get_data_grid, wait_for_lua, check_for_reset, write_inputs_to_file, get_reward
-#from reinforcement_learning import empty
+import gym_mairio
+import gym
+import numpy as np
+from helper_functions_python import *
 inputs = {"A": False,
           "B": False,
           "Y": False,
@@ -10,19 +12,17 @@ inputs = {"A": False,
           "Down": False}
 
 
-def start_simulation():
-    running = True
-    while running:
-        if not check_for_reset():
-            tile_data, sprite_data, player_position = get_data_grid()
-            # get output from environment and return inputs
-            write_inputs_to_file("Code/data/inputs", inputs)
-            wait_for_lua()
-            reward = get_reward()
+env = gym.make("mairio-v0")  # Create the environment
 
-        else:
-            # reset environment and client
-            pass
+
+def start_simulation():
+    state = env.reset()
+
+    for _ in range(100):
+        action = env.action_space.sample()
+        
+
+        pass
 
 
 if __name__ == "__main__":

@@ -1,0 +1,6 @@
+setup.py
+gym_mairio.egg-info/PKG-INFO
+gym_mairio.egg-info/SOURCES.txt
+gym_mairio.egg-info/dependency_links.txt
+gym_mairio.egg-info/requires.txt
+gym_mairio.egg-info/top_level.txt

@@ -84,7 +84,7 @@ def get_data_grid():
         except IndexError:  # enemys which are offscreen
             continue
 
-    return tile_grid, sprite_grid, mario_pos
+    return [tile_grid, sprite_grid, mario_pos]
 
 
 def convert_to_relativ_coordinates(x, y):
