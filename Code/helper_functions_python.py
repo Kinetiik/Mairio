@@ -135,6 +135,18 @@ def get_reward():
     return reward
 
 
+def convert_action(action):
+    edited_action = {"A": bool(action[0]),
+                     "B": bool(action[1]),
+                     "Y": bool(action[2]),
+                     "X": bool(action[3]),
+                     "Left": bool(action[4]),
+                     "Right": bool(action[5]),
+                     "Up": bool(action[6]),
+                     "Down": bool(action[7])}
+    return edited_action
+
+
 def initialize():
     print("Please setup the environment manually!")
 

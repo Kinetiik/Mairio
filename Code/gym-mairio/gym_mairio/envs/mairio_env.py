@@ -9,7 +9,9 @@ class MairioEnv(gym.Env):
 
     def __init__(self):
         metadata = {'render.modes': ['human']}
-        self.action_space = Dict()
+
+        self.action_space = spaces.Tuple((spaces.Discrete(2), spaces.Discrete(2), spaces.Discrete(
+            2), spaces.Discrete(2), spaces.Discrete(2), spaces.Discrete(2), spaces.Discrete(2), spaces.Discrete(2)))
         self.inputs = {"A": False,
                        "B": False,
                        "Y": False,
@@ -29,7 +31,7 @@ class MairioEnv(gym.Env):
         self.state = get_data_grid()
         self.reward = get_reward()
         self.reset_flag = check_for_reset()
-        return self.state_map16, self.state_sprites, self.player_pos, self.reward, self.reset_flag
+        return self.state, self.reward, self.reset_flag
 
     def reset(self):
         self.inputs = {"A": False,

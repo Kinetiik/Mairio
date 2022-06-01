@@ -20,9 +20,11 @@ def start_simulation():
 
     for _ in range(100):
         action = env.action_space.sample()
-        
-
-        pass
+        action = convert_action(action)
+        # TODO feed data back to observation space
+        state, reward, reset_flag = env.step(action)
+        if reset_flag:
+            env.reset()
 
 
 if __name__ == "__main__":
