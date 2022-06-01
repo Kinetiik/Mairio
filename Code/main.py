@@ -10,7 +10,7 @@ inputs = {"A": False,
           "Down": False}
 
 
-def start_game():
+def start_simulation():
     running = True
     while running:
         if not check_for_reset():
@@ -26,4 +26,4 @@ def start_game():
 
 
 if __name__ == "__main__":
-    start_game()
+    start_simulation()

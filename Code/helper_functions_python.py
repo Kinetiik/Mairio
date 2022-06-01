@@ -134,6 +134,10 @@ def get_reward():
     file.close()
     return reward
 
+
+def initialize():
+    print("Please setup the environment manually!")
+
 # tile_grid, sprite_grid, mario_pos = get_data_grid()
 # plt.imshow(tile_grid)
 # print(sprite_grid)
