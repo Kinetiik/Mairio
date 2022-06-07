@@ -25,8 +25,8 @@ def start_simulation():
         state, reward, reset_flag = env.step(action)
         if reset_flag:
             env.reset()
-    # TODO: Test lua and sync
-    # TODO: filter irrelevant blocks
+    # TODO: Implement proper set and reset
+    # TODO: Implement reinforcement learning
 
 
 if __name__ == "__main__":
