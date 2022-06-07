@@ -324,20 +324,19 @@ function read_inputs_from_file(filepath)
     i = i+1
     inputs_raw[i] = file:read("*l")
     until i == #index_inputs
-
     inputs_processed = {}
     j = 1
+
     repeat 
     for word in string.gmatch(inputs_raw[j],"([^:]*)$") do 
-        if word=="True" then
-            inputs_processed[j] = true
-        else 
-            inputs_processed[j] = false
+        if word ~= "" then 
+            word = string.sub(word,1,4)
+            if word == "True" then
+                inputs_processed[j] = true
+            else 
+                inputs_processed[j] = false
+            end
         end
-            --print(inputs_processed[j])
-            --print(type(inputs_processed[j]))
-            
-            
     end
     j = j+1
         
@@ -384,7 +383,7 @@ function get_data()
             outputs[starting_index+(3*slot)] = -100
         end
     end
-    print(outputs)
+    
     return outputs
 end
 
@@ -467,15 +466,16 @@ end
 
 function wait_for_python()
     file = io.open("data/waiting","wb")
-    file:write(1)  --1 = python is executing code, 0 = lua and emulator
-    io.close()
+    file:write("1")  --1 = python is executing code, 0 = lua and emulator
+    file:close()
     file = io.open("data/waiting","rb")
     int = file:read()
-    while int == "1" do  --TODO fix waiting function
-    
+    while int == "1" do
+        file:seek("set",0)
         int = file:read()
+        
     end
-    io.close()
+    file:close()
 end
 
 
@@ -497,8 +497,10 @@ function start_game()
         wait_for_python()
 
         inputs = read_inputs_from_file("data/inputs")
+        
         set_inputs(inputs)
         emu.frameadvance()
+
 
         if check_for_player_death() then
             reward = calculate_reward()
@@ -511,9 +513,5 @@ function start_game()
 end
 
 
-outputs = get_data()
-write_outputs_to_file("data/outputs",outputs, index_outputs)
-map_data,index_tiles = get_tile_data()
-write_outputs_to_file("data/map16", map_data, index_tiles)
-print("done")
-client.pause()
+start_game()
+

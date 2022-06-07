@@ -3,14 +3,14 @@ import time
 import numpy as np
 import matplotlib.pyplot as plt
 import math
-inputs = {"A": False,
-          "B": False,
-          "Y": False,
-          "X": False,
-          "Left": False,
-          "Right": False,
-          "Up": False,
-          "Down": False}
+inputs = {"A": True,
+          "B": True,
+          "Y": True,
+          "X": True,
+          "Left": True,
+          "Right": True,
+          "Up": True,
+          "Down": True}
 
 index_outputs = ["Mario_x_pos", "Mario_y_pos", "camera_x", "camera_y",
                  "sprite1_number", "sprite1_x_pos", "sprite1_y_pos",
@@ -160,7 +160,5 @@ def convert_action(action):
 def initialize():
     print("Please setup the environment manually!")
 
-# tile_grid, sprite_grid, mario_pos = get_data_grid()
-# plt.imshow(tile_grid)
-# print(sprite_grid)
-# plt.show()
+
+write_inputs_to_file("Code/data/inputs", inputs)
