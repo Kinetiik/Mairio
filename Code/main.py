@@ -22,7 +22,6 @@ def start_simulation():
     for _ in range(100):
         action = env.action_space.sample()
         action = convert_action(action)
-        print(action)
         state, reward, reset_flag = env.step(action)
         if reset_flag:
             env.reset()
