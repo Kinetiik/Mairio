@@ -39,9 +39,19 @@ def read_outputs_from_file(filename: str) -> dict:
     return outputs
 
 
+def filter_outputs(Inputs: dict):
+    if Inputs["Right"] and Inputs["Left"]:
+        Inputs["Right"] = True
+        Inputs["Left"] = False
+    if Inputs["Up"] and Inputs["Down"]:
+        Inputs["Up"] = True
+        Inputs["Down"] = False
+    return Inputs
+
+
 def get_data_grid():
-    tile_grid = np.full((14, 16), -100)
-    sprite_grid = np.full((14, 16), -100)
+    grid = np.full((14, 16, 2), -100)
+    #sprite_grid = np.full((14, 16), -100)
     with open("Code/data/map16") as file:
         file_readout = file.readlines()
         for line in file_readout:
@@ -51,7 +61,7 @@ def get_data_grid():
             y = int(coordinates[1])
             tile_kind = split_coordinates_and_data[1]
             try:
-                tile_grid[y, x] = tile_kind  # TODO Filter "empty" tiles
+                grid[y, x, 0] = tile_kind  # TODO Filter "empty" tiles
             except IndexError:
                 print("indexerror")
 
@@ -70,9 +80,7 @@ def get_data_grid():
     cam_y = data[3]
     mario_x, mario_y = convert_to_relativ_coordinates(
         data[0]+16, data[1]+16)
-    mario_pos = np.array((mario_x, mario_y))
-    # TODO: Implement correct IDS
-    #sprite_grid[mario_y, mario_x] = 123
+
     for i in range(12):
         sprite_number = data[4+(3*i)]
         sprite_x = data[5+(3*i)]
@@ -80,11 +88,13 @@ def get_data_grid():
         relative_x, relative_y = convert_to_relativ_coordinates(
             sprite_x, sprite_y)
         try:
-            sprite_grid[relative_y, relative_x] = sprite_number
+            grid[relative_y, relative_x, 1] = sprite_number
         except IndexError:  # enemys which are offscreen
             continue
 
-    return [tile_grid, sprite_grid, mario_pos]
+    grid[mario_y, mario_x, 1] = 123
+
+    return grid
 
 
 def convert_to_relativ_coordinates(x, y):
@@ -144,7 +154,7 @@ def convert_action(action):
                      "Right": bool(action[5]),
                      "Up": bool(action[6]),
                      "Down": bool(action[7])}
-    return edited_action
+    return filter_outputs(edited_action)
 
 
 def initialize():

@@ -27,8 +27,6 @@ def start_simulation():
             env.reset()
     # TODO: Test lua and sync
     # TODO: filter irrelevant blocks
-    # TODO Prevent agent from pressing oppposite directional keys
-    # TODO Fix env.render and state output to 16x14x2 array
 
 
 if __name__ == "__main__":

@@ -42,15 +42,16 @@ class MairioEnv(gym.Env):
                        "Right": False,
                        "Up": False,
                        "Down": False}
-        self.state_map16 = np.full((14, 16), -100)
-        self.state_sprites = np.full((14, 16), -100)
-        self.layer_pos = [0, 0]
+        self.state = np.full((14, 16, 2), -100)
         self.reward = 0
         self.reset_flag = 0
         return get_data_grid()
 
     def render(self, mode='human', close=False):
-        tile_grid, sprite_grid, mario_pos = get_data_grid()
-        plt.imshow(tile_grid)
-        print(sprite_grid)
+        grid = get_data_grid()
+        # print(grid.shape)
+        grid_1, grid_2 = np.dsplit(grid, 2)
+        plt.imshow(grid_1)
+        plt.show()
+        plt.imshow(grid_2)
         plt.show()
