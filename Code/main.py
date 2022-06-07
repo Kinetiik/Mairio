@@ -17,7 +17,7 @@ env = gym.make("mairio-v0")  # Create the environment
 
 def start_simulation():
     state = env.reset()
-    # env.render()
+    env.render()
 
     for _ in range(100):
         action = env.action_space.sample()

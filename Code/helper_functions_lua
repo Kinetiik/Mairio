@@ -28,6 +28,8 @@ local s32 = memory.read_s32_le
 local w32 = memory.write_u32_le
 local fmt = string.format
 
+useless_tiles = {37,115,116,121,45,46}
+
 function signed16(num)
   local maxval = 32768
   if num < maxval then return num else return num - 2*maxval end
@@ -403,6 +405,16 @@ function reset_game()
     file:close()
 end
 
+function table_contains(tbl, x)
+    found = false
+    for _, v in pairs(tbl) do
+        if v == x then 
+            found = true 
+        end
+    end
+    return found
+end
+
 function get_tile_data()
     map_tiles = {}
     index_tiles={}
@@ -420,7 +432,7 @@ function get_tile_data()
             x = tostring(math.floor((current_x)/16))
             y= tostring(math.floor((current_y)/16))
             coordinate = x .. "-" .. y
-            if kind >= 0x111 and kind <= 0x16d or kind == 0x2b then
+            if table_contains(useless_tiles,kind)  then
                 table.insert(index_tiles,i,coordinate)
                 table.insert(map_tiles,i, -100)
             else
