@@ -30,4 +30,7 @@ def start_simulation():
 
 
 if __name__ == "__main__":
-    start_simulation()
+    # start_simulation()
+    state = env.reset()
+    print(env.observation_space.contains(state))
+    # env.render()

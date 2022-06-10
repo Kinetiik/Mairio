@@ -50,7 +50,7 @@ def filter_outputs(Inputs: dict):
 
 
 def get_data_grid():
-    grid = np.full((14, 16, 2), -100)
+    grid = np.full((14, 16, 2), -100, dtype=np.float32)
     #sprite_grid = np.full((14, 16), -100)
     with open("Code/data/map16") as file:
         file_readout = file.readlines()

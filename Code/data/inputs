@@ -1,8 +1,8 @@
-A:True
-B:True
-Y:True
-X:True
-Left:False
-Right:True
-Up:False
-Down:False
+1:0
+0:1
+0:1
+0:1
+1:0
+1:0
+1:0
+0:1
