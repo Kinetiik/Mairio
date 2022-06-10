@@ -3,14 +3,6 @@ import time
 import numpy as np
 import matplotlib.pyplot as plt
 import math
-inputs = {"A": True,
-          "B": True,
-          "Y": True,
-          "X": True,
-          "Left": True,
-          "Right": True,
-          "Up": True,
-          "Down": True}
 
 index_outputs = ["Mario_x_pos", "Mario_y_pos", "camera_x", "camera_y",
                  "sprite1_number", "sprite1_x_pos", "sprite1_y_pos",

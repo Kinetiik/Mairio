@@ -397,11 +397,11 @@ function set_inputs(inputs_processed)
     joypad.set(input,1)
 end
 
-function reset_game()
+function reset_game(current_level)
     start_level(current_level)
     reset_file = io.open("data/reset","wb")
     reset_file:write(1)
-    file:close()
+    reset_file:close()
 end
 
 function table_contains(tbl, x)
@@ -493,21 +493,21 @@ function start_game()
         write_outputs_to_file("data/outputs",outputs, index_outputs)
         map_data,index_tiles = get_tile_data()
         write_outputs_to_file("data/map16", map_data, index_tiles)
-
+        
         wait_for_python()
-
+        
         inputs = read_inputs_from_file("data/inputs")
         
         set_inputs(inputs)
         emu.frameadvance()
-
+        reward = calculate_reward()
+        write_outputs_to_file("data/rewards",reward, {"reward"})
+        
 
         if check_for_player_death() then
-            reward = calculate_reward()
-            write_outputs_to_file("data/rewards",reward, {"reward"})
             reset_game(current_level)
             --TODO Implement finished level trigger and advance level accordingly
-            --TODO implement grid and filter tiles
+            
         end
     end
 end
