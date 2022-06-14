@@ -1,11 +1,36 @@
 import numpy as np
+from config import frame_count
+import os
 
 
-state = np.arange(2, 123)
-action = np.arange(1, 8)
-reward = np.array([312.123])
-with open(f"test.npz", "wb")as f:
-    np.savez(f, state=state, action=action,
-             reward=reward)
+def train_q_table(states, actions, rewards):
+    alpha = 0.1
+    gamma = 0.6
+    epsilon = 0.1
+    q_table = np.zeros(
+        [enviroment.observation_space.n, enviroment.action_space.n])
 
-data = np.load("test.npz", allow_pickle=True)
+    for state, action, reward in zip(states, actions, rewards):
+        q_value = q_table[state, action]
+        max_value = np.max(q_table[next_state])
+        new_q_value = (1 - alpha) * q_value + alpha * \
+            (reward + gamma * max_value)
+
+    # Update Q-table
+    q_table[state, action] = new_q_value
+    np.save("q_table.npy", q_table, allow_pickle=True)
+    return q_table
+
+
+def read_data():
+    files = os.listdir("trainings_data/")
+    states = []
+    actions = []
+    rewards = []
+    for file in files:
+        with open(f"trainings_data/{file}") as f:
+            data = np.load(f, allow_pickle=True)
+            states.append(data["state"])
+            actions.append(data["action"])
+            rewards.append(data["reward"])
+    return np.asarray(states), np.asarray(actions), np.asarray(rewards)
