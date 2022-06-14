@@ -18,7 +18,60 @@ index_outputs = ["Mario_x_pos", "Mario_y_pos", "camera_x", "camera_y",
                  "sprite11_number", "sprite11_x_pos", "sprite11_y_pos",
                  "sprite12_number", "sprite12_x_pos", "sprite12_y_pos"]
 
-IDS = {}
+IDS = {"0x15e": 1,
+       "0x1ee": 1,
+       "0x159": 1,
+       "0x130": 1,
+       "0x135": 1,
+       "0x136": 1,
+       "0x13d": 1,
+       "0x13e": 1,
+       "0x153": 1,
+       "0x154": 1,
+       "0x155": 1,
+       "0x1aa": 2,
+       "0x1e2": 2,
+       "0xa1": 2,
+       "0x133": 3,
+       "0x134": 3,
+       "0x1c4": 4,
+       "0x1c7": 4,
+       "0x1c6": 5,
+       "0x1c5": 5,
+       "0x00": 6,
+       "0x9f": 7,
+       "0xab": 8,
+       "0x83": 9,
+       "0x2b": 10,
+       "0x74": 11,
+       "0x4f": 12,
+       "0x11e": 13,
+       "0x35": 14,
+       "0x30": 14,
+       "0x32": 14,
+       "0x33": 14,
+       "0x2f": 14,
+       "0xb9": 15,
+       "0x106": 16,
+       "0x05": 17,
+       "0x11f": 18,
+       "0x100": 19,
+       "0x101": 19,
+       "0x104": 19,
+       "0x145": 19,
+       "0x1e2": 19,
+       "0x95": 20,
+       "0x3a": 21,
+       "0x3d": 21,
+       "0x39": 21,
+       "0x3c": 21,
+       "0x7b": 21,
+       "0x1e4": 22,
+       "0x1af": 22,
+       "0x132": 22,
+       "0x13b": 23,
+       "0x13f": 23
+       }
 
 
 def read_outputs_from_file(filename: str) -> dict:
@@ -45,7 +98,7 @@ def filter_outputs(Inputs: dict):
 
 def get_data_grid():
     grid = np.full((14, 16), -1)
-    #sprite_grid = np.full((14, 16), -100)
+
     with open("Code/data/map16") as file:
         file_readout = file.readlines()
         for line in file_readout:
@@ -55,7 +108,8 @@ def get_data_grid():
             y = int(coordinates[1])
             tile_kind = split_coordinates_and_data[1]
             try:
-                grid[y, x] = tile_kind  # TODO Filter "empty" tiles
+                if hex(tile_kind) in IDS:
+                    grid[y, x] = IDS[tile_kind]
             except IndexError:
                 print("indexerror")
 
@@ -72,8 +126,6 @@ def get_data_grid():
     global cam_y
     cam_x = data[2]
     cam_y = data[3]
-    mario_x, mario_y = convert_to_relativ_coordinates(
-        data[0]+16, data[1]+16)
 
     for i in range(12):
         sprite_number = data[4+(3*i)]
@@ -82,24 +134,20 @@ def get_data_grid():
         relative_x, relative_y = convert_to_relativ_coordinates(
             sprite_x, sprite_y)
         try:
-            grid[relative_y, relative_x] = sprite_number
+            if hex(sprite_number) in IDS:
+                grid[relative_y, relative_x] = IDS[sprite_number]
         except IndexError:  # enemys which are offscreen
             continue
 
-    new_grid = remap_grid_to_IDS(grid)
-    new_grid[mario_y, mario_x] = 24
-    return new_grid
-
-
-def remap_grid_to_IDS(grid):
-    [x+300 for x in grid]
-    for k, v in zip(IDS, IDS.values()):
-
-        np.place(grid, grid == int(k, 16), v)
-
-    np.place(grid, grid > 24 or grid < 0, 0)
-
+    mario_x, mario_y = convert_to_relativ_coordinates(
+        data[0]+16, data[1]+16)
+    grid[mario_y, mario_x] = 24
+    np.place(grid, grid == -1, 0)
     return grid
+
+
+def convert_to_decimal(value):
+    return int(value, 16)
 
 
 def convert_to_relativ_coordinates(x, y):
