@@ -402,7 +402,7 @@ function set_inputs(inputs_processed)
     joypad.set(input,1)
 end
 
-function reset_game()
+function reset_game(current_level)
     start_level(current_level)
     reset_file = io.open("data/reset","wb")
     reset_file:write("1")
@@ -503,9 +503,9 @@ function start_game()
 
         map_data,index_tiles = get_tile_data()
         write_outputs_to_file("data/map16", map_data, index_tiles)
-
+        
         wait_for_python()
-
+        
         inputs = read_inputs_from_file("data/inputs")
         
         set_inputs(inputs)

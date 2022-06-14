@@ -1,3 +1,5 @@
 numpy
 keras
 gym
+matplotlib
+-e gym-mairio

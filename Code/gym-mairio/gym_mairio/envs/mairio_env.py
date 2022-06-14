@@ -47,7 +47,7 @@ class MairioEnv(gym.Env):
         self.state = np.full((14, 16), -1)
         self.reward = 0
         self.reset_flag = 0
-        return get_data_grid()
+        return self.state
 
     def render(self, mode='human', close=False):
         grid = get_data_grid()

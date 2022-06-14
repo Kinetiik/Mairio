@@ -29,10 +29,10 @@ def start_training_simulation():
             reset_reset()
             run_number += 1
             env.reset()
-
     # TODO: Implement reinforcement learning
-    # TODO Fix observation space
 
 
 if __name__ == "__main__":
-    start_training_simulation()
+    # start_simulation()
+    state = env.reset()
+    env.render()
