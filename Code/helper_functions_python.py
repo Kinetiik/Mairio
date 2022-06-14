@@ -26,6 +26,8 @@ index_outputs = ["Mario_x_pos", "Mario_y_pos", "camera_x", "camera_y",
                  "sprite11_number", "sprite11_x_pos", "sprite11_y_pos",
                  "sprite12_number", "sprite12_x_pos", "sprite12_y_pos"]
 
+IDS = {}
+
 
 def read_outputs_from_file(filename: str) -> dict:
     outputs = {}
@@ -44,13 +46,13 @@ def filter_outputs(Inputs: dict):
         Inputs["Right"] = True
         Inputs["Left"] = False
     if Inputs["Up"] and Inputs["Down"]:
-        Inputs["Up"] = True
+        Inputs["Up"] = False
         Inputs["Down"] = False
     return Inputs
 
 
 def get_data_grid():
-    grid = np.full((14, 16, 2), -100)
+    grid = np.full((14, 16), -1)
     #sprite_grid = np.full((14, 16), -100)
     with open("Code/data/map16") as file:
         file_readout = file.readlines()
@@ -61,7 +63,7 @@ def get_data_grid():
             y = int(coordinates[1])
             tile_kind = split_coordinates_and_data[1]
             try:
-                grid[y, x, 0] = tile_kind  # TODO Filter "empty" tiles
+                grid[y, x] = tile_kind  # TODO Filter "empty" tiles
             except IndexError:
                 print("indexerror")
 
@@ -88,11 +90,22 @@ def get_data_grid():
         relative_x, relative_y = convert_to_relativ_coordinates(
             sprite_x, sprite_y)
         try:
-            grid[relative_y, relative_x, 1] = sprite_number
+            grid[relative_y, relative_x] = sprite_number
         except IndexError:  # enemys which are offscreen
             continue
 
-    grid[mario_y, mario_x, 1] = 123
+    new_grid = remap_grid_to_IDS(grid)
+    new_grid[mario_y, mario_x] = 24
+    return new_grid
+
+
+def remap_grid_to_IDS(grid):
+    [x+300 for x in grid]
+    for k, v in zip(IDS, IDS.values()):
+
+        np.place(grid, grid == int(k, 16), v)
+
+    np.place(grid, grid > 24 or grid < 0, 0)
 
     return grid
 
@@ -106,12 +119,15 @@ def convert_to_relativ_coordinates(x, y):
 def check_for_reset():
     with open("Code/data/reset")as file:
         text = file.readlines()
-        if text == "1":  # TODO reset the text to 0 after reset
-            file.close()
+        if text == ['1']:  # TODO reset the text to 0 after reset
             return True
         else:
-            file.close()
             return False
+
+
+def reset_reset():
+    with open("Code/data/reset", "w")as file:
+        file.write("0")
 
 
 def write_inputs_to_file(filename: str, inputs: dict):
@@ -141,6 +157,8 @@ def wait_for_lua():
 def get_reward():
     with open("Code/data/rewards", "r") as file:
         reward = file.read()
+        split_string = reward.split(":")
+        reward = float(split_string[1].strip("/n"))
     file.close()
     return reward
 
@@ -159,6 +177,3 @@ def convert_action(action):
 
 def initialize():
     print("Please setup the environment manually!")
-
-
-write_inputs_to_file("Code/data/inputs", inputs)

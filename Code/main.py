@@ -2,6 +2,7 @@ import gym
 import gym_mairio
 import numpy as np
 from helper_functions_python import *
+from gather_data import gather_data
 inputs = {"A": False,
           "B": False,
           "Y": False,
@@ -15,19 +16,23 @@ inputs = {"A": False,
 env = gym.make("mairio-v0")  # Create the environment
 
 
-def start_simulation():
+def start_training_simulation():
     state = env.reset()
-    # env.render()
-
-    for _ in range(1000000):
-        action = env.action_space.sample()
-        action = convert_action(action)
+    run_number = 0
+    for frame in range(200000):
+        action_unedited = env.action_space.sample()
+        action = convert_action(action_unedited)
         state, reward, reset_flag = env.step(action)
+        gather_data(action_unedited, state, reward, run_number, frame)
+        env.render()
         if reset_flag:
+            reset_reset()
+            run_number += 1
             env.reset()
-    # TODO: Test lua and sync
-    # TODO: filter irrelevant blocks
+
+    # TODO: Implement reinforcement learning
+    # TODO Fix observation space
 
 
 if __name__ == "__main__":
-    start_simulation()
+    start_training_simulation()

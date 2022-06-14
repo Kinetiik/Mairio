@@ -12,6 +12,8 @@ class MairioEnv(gym.Env):
 
         self.action_space = spaces.Tuple((spaces.Discrete(2), spaces.Discrete(2), spaces.Discrete(
             2), spaces.Discrete(2), spaces.Discrete(2), spaces.Discrete(2), spaces.Discrete(2), spaces.Discrete(2)))
+        self.observation_space = spaces.Box(
+            low=-1, high=50, shape=([14, 16]), dtype=np.float32)
         self.inputs = {"A": False,
                        "B": False,
                        "Y": False,
@@ -42,7 +44,7 @@ class MairioEnv(gym.Env):
                        "Right": False,
                        "Up": False,
                        "Down": False}
-        self.state = np.full((14, 16, 2), -100)
+        self.state = np.full((14, 16), -1)
         self.reward = 0
         self.reset_flag = 0
         return get_data_grid()
@@ -50,8 +52,6 @@ class MairioEnv(gym.Env):
     def render(self, mode='human', close=False):
         grid = get_data_grid()
         # print(grid.shape)
-        grid_1, grid_2 = np.dsplit(grid, 2)
-        plt.imshow(grid_1)
-        plt.show()
-        plt.imshow(grid_2)
+
+        plt.imshow(grid)
         plt.show()
