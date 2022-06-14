@@ -217,3 +217,7 @@ def convert_action(action):
 
 def initialize():
     print("Please setup the environment manually!")
+
+
+def load_q_table():
+    return None  # TODO: Implement

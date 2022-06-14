@@ -35,9 +35,26 @@ def start_training_simulation():
             run_number += 1
             env.reset()
     # TODO: Implement reinforcement learning
+    
+def start_q_table_simulation():
+    q_table = load_q_table()
+    state = env.reset()
+    run_number = 0
+    epsilon = 0.4
+    for frame in range(frame_count):
+        if random.uniform(0, 1) < epsilon:
+                action_unedited = enviroment.action_space.sample()
+        else:
+                 action_unedited = np.argmax(q_table[state])
+        action = convert_action(action_unedited)
+        state, reward, reset_flag = env.step(action)
+        
+        if reset_flag:
+            reset_reset()
+            run_number += 1
+            env.reset()
 
 
 if __name__ == "__main__":
-    # start_simulation()
-    state = env.reset()
-    env.render()
+    start_training_simulation()
+   

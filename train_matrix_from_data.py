@@ -6,7 +6,6 @@ import os
 def train_q_table(states, actions, rewards):
     alpha = 0.1
     gamma = 0.6
-    epsilon = 0.1
     q_table = np.zeros(
         [enviroment.observation_space.n, enviroment.action_space.n])
 
