@@ -151,6 +151,3 @@ def convert_action(action):
 
 def initialize():
     print("Please setup the environment manually!")
-
-
-write_inputs_to_file("Code/data/inputs", inputs)
