@@ -39,11 +39,14 @@ IDS = {"0x15e": 1,
        "0x1c6": 5,
        "0x1c5": 5,
        "0x00": 6,
+       "0xbd": 6,
+       "0x02": 6,
+       "0x01": 6,
+       "0x03": 6,
        "0x9f": 7,
        "0xab": 8,
        "0x83": 9,
        "0x2b": 10,
-       "0x74": 11,
        "0x4f": 12,
        "0x11e": 13,
        "0x35": 14,
@@ -108,8 +111,8 @@ def get_data_grid():
             y = int(coordinates[1])
             tile_kind = split_coordinates_and_data[1]
             try:
-                if hex(tile_kind) in IDS:
-                    grid[y, x] = IDS[tile_kind]
+                if hex(int(tile_kind)) in IDS:
+                    grid[y, x] = IDS[hex(int(tile_kind))]
             except IndexError:
                 print("indexerror")
 
@@ -135,12 +138,15 @@ def get_data_grid():
             sprite_x, sprite_y)
         try:
             if hex(sprite_number) in IDS:
-                grid[relative_y, relative_x] = IDS[sprite_number]
+                grid[relative_y, relative_x] = IDS[hex(sprite_number)]
+            elif hex(sprite_number) == "0x74":
+                grid[relative_y, relative_x] = 11
+
         except IndexError:  # enemys which are offscreen
             continue
 
     mario_x, mario_y = convert_to_relativ_coordinates(
-        data[0]+16, data[1]+16)
+        data[0], data[1]+16)
     grid[mario_y, mario_x] = 24
     np.place(grid, grid == -1, 0)
     return grid
@@ -151,8 +157,12 @@ def convert_to_decimal(value):
 
 
 def convert_to_relativ_coordinates(x, y):
-    relative_x = math.floor(((x-cam_x)/16))
-    relative_y = math.floor(((y-cam_y)/16))
+    relative_x = math.ceil(((x-cam_x)/16))
+    relative_y = math.ceil(((y-cam_y)/16))
+    if relative_x > 15:
+        relative_x = 15
+    if relative_y > 13:
+        relative_y = 13
     return relative_x, relative_y
 
 
@@ -220,4 +230,6 @@ def initialize():
 
 
 def load_q_table():
-    return None  # TODO: Implement
+    with open("q_table.npy") as f:
+        q_table = np.load(f, allow_pickle=True)
+    return q_table
