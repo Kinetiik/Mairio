@@ -233,3 +233,7 @@ def load_q_table():
     with open("q_table.npy") as f:
         q_table = np.load(f, allow_pickle=True)
     return q_table
+
+
+
+

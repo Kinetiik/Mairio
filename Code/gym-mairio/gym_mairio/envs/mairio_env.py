@@ -13,7 +13,7 @@ class MairioEnv(gym.Env):
         self.action_space = spaces.Tuple((spaces.Discrete(2), spaces.Discrete(2), spaces.Discrete(
             2), spaces.Discrete(2), spaces.Discrete(2), spaces.Discrete(2), spaces.Discrete(2), spaces.Discrete(2)))
         self.observation_space = spaces.Box(
-            low=-1, high=25, shape=([14, 16]), dtype=np.float32)
+            low=-1, high=24, shape=([14, 16]), dtype=np.uint8)
         self.inputs = {"A": False,
                        "B": False,
                        "Y": False,
@@ -44,7 +44,7 @@ class MairioEnv(gym.Env):
                        "Right": False,
                        "Up": False,
                        "Down": False}
-        self.state = np.full((14, 16), -1, dtype=np.float32)
+        self.state = np.full((14, 16), 0, dtype=np.uint8)
         self.reward = 0
         self.reset_flag = 0
         return self.state

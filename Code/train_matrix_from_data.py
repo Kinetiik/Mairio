@@ -1,23 +1,32 @@
 import numpy as np
 from config import frame_count
 import os
+from encoding import *
 
 
 def train_q_table(states, actions, rewards, env):
     alpha = 0.1
     gamma = 0.6
-    q_table = np.zeros(shape=[14*16*25, 2**8])
+    encoding = np.array()
+    q_table = np.empty([256, 0])
 
     for state, action, reward in zip(states, actions, rewards):
         for s, a, r in zip(state, action, reward):
-            print(s, a, r)
-            q_value = q_table[s, a]
-            max_value = np.max(q_table[next_state])
-            new_q_value = (1 - alpha) * q_value + alpha * \
-                (r + gamma * max_value)
+            if s not in encoding:
+                encoding = np.append(encoding, s)
+            binary = ""
+            for i in range(8):
+                binary += str(a[i])
+            a = int(binary, 2)
 
-            q_table[state, action] = new_q_value
+            q_value = q_table[a][np.where(encoding == s)]
+            max_value = np.max(np.transpose(q_table)[np.where(encoding == s)])
+            new_q_value = (1 - alpha) * q_value + \
+                alpha * (r + gamma * max_value)
+
+            q_table[a][np.where(encoding == s)] = new_q_value
     np.save("q_table.npy", q_table)
+    save_enocding(encoding)
     return q_table
 
 
