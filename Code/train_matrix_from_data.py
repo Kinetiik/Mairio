@@ -12,7 +12,7 @@ def train_q_table(states, actions, rewards, env):
 
     for state, action, reward in zip(states, actions, rewards):
         for s, a, r in zip(state, action, reward):
-            if s not in encoding:
+            if s not in encoding: #TODO Change to work with arrays correctly
                 encoding = np.append(encoding, s)
             binary = ""
             for i in range(8):

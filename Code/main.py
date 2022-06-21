@@ -27,7 +27,7 @@ def start_training_simulation():
     state_list = []
     reward_list = []
     while frame < frame_count or not reset_flag:
-
+        #Todo: Randomly set spawn in lua, train for 9 times to get encoding
         action_unedited = env.action_space.sample()
         action = convert_action(action_unedited)
         state, reward, reset_flag = env.step(action)
@@ -45,7 +45,7 @@ def start_training_simulation():
             reset_reset()
             run_number += 1
             env.reset()
-    # TODO: Implement reinforcement learning
+
 
 
 def start_q_table_simulation():
