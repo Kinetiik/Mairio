@@ -1,1 +1,1 @@
-frame_count = 10000
+frame_count = 2000

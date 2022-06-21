@@ -230,10 +230,12 @@ def initialize():
 
 
 def load_q_table():
-    with open("q_table.npy") as f:
+    with open("q_table.npy", "rb") as f:
         q_table = np.load(f, allow_pickle=True)
     return q_table
 
 
-
-
+def convert_to_string(state):
+    one_dim = np.transpose(state)
+    string = np.array2string(one_dim)
+    return string

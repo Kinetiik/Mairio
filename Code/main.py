@@ -6,6 +6,7 @@ from gather_data import gather_data
 from config import frame_count
 from train_matrix_from_data import *
 from encoding import *
+import random
 inputs = {"A": False,
           "B": False,
           "Y": False,
@@ -22,12 +23,16 @@ env = gym.make("mairio-v0")  # Create the environment
 def start_training_simulation():
     state = env.reset()
     run_number = 0
+    frame = 0
     reset_flag = False
     action_unedited_list = []
     state_list = []
     reward_list = []
     while frame < frame_count or not reset_flag:
-        #Todo: Randomly set spawn in lua, train for 9 times to get encoding
+        print(frame)
+        # around one kb of data per frame
+        # Todo: fix obs space, implement unlimited time in emulator
+
         action_unedited = env.action_space.sample()
         action = convert_action(action_unedited)
         state, reward, reset_flag = env.step(action)
@@ -47,23 +52,27 @@ def start_training_simulation():
             env.reset()
 
 
-
 def start_q_table_simulation():
     q_table = load_q_table()
     encoding = load_encoding()
     state = env.reset()
     reset_flag = False
     run_number = 0
-    epsilon = 0.4
+    epsilon = -1
+    frame = 0
+    unknown_states = 0
     while frame < frame_count or not reset_flag:
+        print(np.shape(encoding))
         if random.uniform(0, 1) < epsilon:
-            action_unedited = enviroment.action_space.sample()
+            action_unedited = env.action_space.sample()
         else:
-            try:
-                action_unedited = np.argmax(
-                q_table[np.where(encoding == state)])
-            except:
-                action_unedited = enviroment.action_space.sample()
+
+            action_unedited = np.argmax(
+                q_table[encoding[state]])
+            print("done")
+
+            #unknown_states += 1
+            #action_unedited = env.action_space.sample()
         action = convert_action(action_unedited)
         state, reward, reset_flag = env.step(action)
         frame += 1
@@ -71,10 +80,10 @@ def start_q_table_simulation():
             reset_reset()
             run_number += 1
             env.reset()
+    print(unknown_states)
 
 
 if __name__ == "__main__":
     # start_training_simulation()
-    states, actions, rewards = read_data()
-    q_table = train_q_table(states, actions, rewards, env)
-    print(np.shape(q_table))
+    # train_q_table()
+    start_q_table_simulation()

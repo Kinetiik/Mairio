@@ -475,12 +475,12 @@ end
 --Main Game Lopp
 
 function start_game() 
-    current_level = 1 
+    current_level = 1
     start_level(current_level)
     running = true
     prior_position = 0
     while running do
-
+        --current_level = math.random(9)
         outputs = get_data()
         write_outputs_to_file("data/outputs",outputs, index_outputs)
 
@@ -497,11 +497,13 @@ function start_game()
         if check_for_player_death() then
             reset_game(current_level)
             reward = -1000
+            prior_position = 0
             write_outputs_to_file("data/rewards",{reward}, {"reward"})
 
         elseif check_for_level_end() then
             reset_game(current_level)
             reward = 5000
+            prior_position = 0
             write_outputs_to_file("data/rewards",{reward}, {"reward"})
             
         else    

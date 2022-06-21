@@ -2,12 +2,12 @@ import numpy as np
 new_row = np.empty([256, 1])
 
 
-def save_enocding(encoding):
-    np.save("encoding.npy")
+def save_encoding(encoding):
+    np.save("encoding.npy", np.asarray(encoding), allow_pickle=True)
 
 
 def load_encoding():
-    encoding = np.load("encoding.npy")
+    encoding = np.load("encoding.npy", allow_pickle=True)
     return encoding
 
 

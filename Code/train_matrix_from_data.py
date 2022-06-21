@@ -2,32 +2,42 @@ import numpy as np
 from config import frame_count
 import os
 from encoding import *
+from helper_functions_python import convert_to_string
 
 
-def train_q_table(states, actions, rewards, env):
+def train_q_table():
+    states, actions, rewards = read_data()
     alpha = 0.1
     gamma = 0.6
-    encoding = np.array()
-    q_table = np.empty([256, 0])
+    encoding = {}
+    index = 0
+    q_table = np.ndarray([256, 0])
 
     for state, action, reward in zip(states, actions, rewards):
         for s, a, r in zip(state, action, reward):
-            if s not in encoding: #TODO Change to work with arrays correctly
-                encoding = np.append(encoding, s)
+            s = convert_to_string(s)
+
+            if not s in encoding:  #TODO fix encoding 
+                encoding[s] = index
+                q_table = add_row_to_q_table(q_table)
+                index += 1
             binary = ""
             for i in range(8):
                 binary += str(a[i])
             a = int(binary, 2)
 
-            q_value = q_table[a][np.where(encoding == s)]
-            max_value = np.max(np.transpose(q_table)[np.where(encoding == s)])
+            q_value = q_table[a][encoding[s]]
+            q_transposed = np.transpose(q_table)
+            max_value = np.max(q_transposed[encoding[s]])
             new_q_value = (1 - alpha) * q_value + \
                 alpha * (r + gamma * max_value)
 
-            q_table[a][np.where(encoding == s)] = new_q_value
-    np.save("q_table.npy", q_table)
-    save_enocding(encoding)
-    return q_table
+            q_table[a][encoding[s]] = new_q_value
+    with open("q_table.npy", "wb") as f:
+        np.save(f, q_table)
+    save_encoding(encoding)
+
+    return q_table, encoding
 
 
 def read_data():
@@ -43,3 +53,8 @@ def read_data():
         rewards.append(data["reward"])  # TODO Fix reward
 
     return np.asarray(states, dtype=object), np.asarray(actions, dtype=object), np.asarray(rewards, dtype=object)
+
+
+if __name__ == "__main__":
+    encoding = load_encoding()
+    print(type(encoding[10]))
