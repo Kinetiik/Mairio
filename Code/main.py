@@ -65,7 +65,7 @@ def start_q_table_simulation():
     print(state)
     reset_flag = False
     run_number = 0
-    epsilon = 0.3
+    epsilon = 0.1
     frame = 0
     unknown_states = 0
     while frame < frame_count or not reset_flag:
@@ -106,7 +106,7 @@ def start_q_table_simulation():
 if __name__ == "__main__":
     # start_training_simulation()
     # train_q_table()
-    start_q_table_simulation()
+    # start_q_table_simulation()
     #encoding = load_encoding()
-    # print(encoding)
-    print("done")
+    print(encoding)
+    
