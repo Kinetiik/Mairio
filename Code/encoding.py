@@ -3,11 +3,19 @@ new_row = np.empty([256, 1])
 
 
 def save_encoding(encoding):
-    np.save("encoding.npy", np.asarray(encoding), allow_pickle=True)
+
+    np.save("encoding.npy", np.asarray(
+        list(encoding.keys())), allow_pickle=True)
 
 
 def load_encoding():
-    encoding = np.load("encoding.npy", allow_pickle=True)
+    encoding_list = np.load("encoding.npy", allow_pickle=True)
+    encoding = {}
+    index = 0
+    for state in encoding_list:
+        state = tuple(state.flatten())
+        encoding[state] = index
+        index += 1
     return encoding
 
 

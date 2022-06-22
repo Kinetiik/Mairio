@@ -15,9 +15,9 @@ def train_q_table():
 
     for state, action, reward in zip(states, actions, rewards):
         for s, a, r in zip(state, action, reward):
-            s = convert_to_string(s)
+            s = tuple(s.flatten())
 
-            if not s in encoding:  #TODO fix encoding 
+            if not s in encoding:
                 encoding[s] = index
                 q_table = add_row_to_q_table(q_table)
                 index += 1
@@ -40,6 +40,32 @@ def train_q_table():
     return q_table, encoding
 
 
+def update_q_table(states, actions, rewards, q_table, encoding):
+    alpha = 0.1
+    gamma = 0.6
+    index = 0
+    for s, a, r in zip(states, actions, rewards):
+
+        if not s in encoding:
+            encoding[s] = index
+            q_table = add_row_to_q_table(q_table)
+            index += 1
+        binary = ""
+        for i in range(8):
+            binary += str(a[i])
+        a = int(binary, 2)
+
+        q_value = q_table[a][encoding[s]]
+        q_transposed = np.transpose(q_table)
+        max_value = np.max(q_transposed[encoding[s]])
+        new_q_value = (1 - alpha) * q_value + alpha * \
+            (r + gamma * max_value)  # Todo change, record own runs
+
+        q_table[a][encoding[s]] = new_q_value
+
+    return q_table
+
+
 def read_data():
     files = os.listdir("trainings_data/")
     states = []
@@ -56,5 +82,4 @@ def read_data():
 
 
 if __name__ == "__main__":
-    encoding = load_encoding()
-    print(type(encoding[10]))
+    table, encoding = train_q_table()

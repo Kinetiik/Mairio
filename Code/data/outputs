@@ -1,6 +1,6 @@
-Mario_x_pos:247
-Mario_y_pos:300
-camera_x:141
+Mario_x_pos:18
+Mario_y_pos:313
+camera_x:0
 camera_y:192
 sprite1_number:-1
 sprite1_x_pos:0
@@ -23,9 +23,9 @@ sprite6_y_pos:0
 sprite7_number:-1
 sprite7_x_pos:0
 sprite7_y_pos:0
-sprite8_number:-1
-sprite8_x_pos:0
-sprite8_y_pos:0
+sprite8_number:189
+sprite8_x_pos:205
+sprite8_y_pos:282
 sprite9_number:-1
 sprite9_x_pos:0
 sprite9_y_pos:0

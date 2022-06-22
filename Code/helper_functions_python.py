@@ -239,3 +239,13 @@ def convert_to_string(state):
     one_dim = np.transpose(state)
     string = np.array2string(one_dim)
     return string
+
+
+def int_to_action(index_action):
+    binary = list(format(index_action, "b"))
+
+    while len(binary) < 8:
+        binary.insert(0, 0)
+
+    binary = list(map(int, binary))
+    return binary
