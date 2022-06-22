@@ -493,7 +493,7 @@ function start_game()
         
         set_inputs(inputs)
         emu.frameadvance()
-        
+        emu.frameadvance()
         if check_for_player_death() then
             reset_game(current_level)
             reward = -1000

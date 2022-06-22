@@ -29,9 +29,6 @@ def start_training_simulation():
     state_list = []
     reward_list = []
     while frame < frame_count or not reset_flag:
-        print(frame)
-        # around one kb of data per frame
-        # Todo: fix obs space, implement unlimited time in emulator
 
         action_unedited = env.action_space.sample()
         action = convert_action(action_unedited)
@@ -62,7 +59,7 @@ def start_q_table_simulation():
 
     state = env.reset()
     state = tuple(state.flatten())
-    print(state)
+    
     reset_flag = False
     run_number = 0
     epsilon = 0.1
