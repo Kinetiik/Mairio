@@ -54,7 +54,9 @@ def start_training_simulation():
 
 def start_q_table_simulation():
     q_table = load_q_table()
+    # TODO: try dict as pkl, otherwise use  Filter /n, convert to dictionary
     encoding = load_encoding()
+    print(encoding)
     state = env.reset()
     reset_flag = False
     run_number = 0
@@ -62,14 +64,12 @@ def start_q_table_simulation():
     frame = 0
     unknown_states = 0
     while frame < frame_count or not reset_flag:
-        print(np.shape(encoding))
         if random.uniform(0, 1) < epsilon:
             action_unedited = env.action_space.sample()
         else:
 
             action_unedited = np.argmax(
                 q_table[encoding[state]])
-            print("done")
 
             #unknown_states += 1
             #action_unedited = env.action_space.sample()
