@@ -30,7 +30,8 @@ def start_training_simulation():
     reward_list = []
     while frame < frame_count or not reset_flag:
 
-        action_unedited = env.action_space.sample()
+        action_unedited = int_to_action(env.action_space.sample())
+        
         action = convert_action(action_unedited)
         state, reward, reset_flag = env.step(action)
         action_unedited_list.append(action_unedited)
@@ -62,20 +63,20 @@ def start_q_table_simulation():
     
     reset_flag = False
     run_number = 0
-    epsilon = 0.1
+    epsilon = 0.05
     frame = 0
     unknown_states = 0
     while frame < frame_count or not reset_flag:
         print(frame)
         if random.uniform(0, 1) < epsilon:
-            action_unedited = env.action_space.sample()
+            action_unedited = int_to_action(env.action_space.sample())
         else:
             if state in encoding:
                 index_action = np.argmax(q_table[:, encoding[state]])
-                unedited_action = int_to_action(index_action)
+                action_unedited = int_to_action(index_action)
             else:
                 unknown_states += 1
-                action_unedited = env.action_space.sample()
+                action_unedited = int_to_action(env.action_space.sample())
 
         action = convert_action(action_unedited)
         state, reward, reset_flag = env.step(action)
@@ -85,6 +86,8 @@ def start_q_table_simulation():
         state_list.append(state)
         reward_list.append(reward)
         if reset_flag:
+            for i in range(8):
+                reward_list[len(reward_list)-1] -= 35
             q_table = update_q_table(
                 state_list, action_unedited_list, reward_list, q_table, encoding)
             action_unedited_list = []
@@ -103,7 +106,7 @@ def start_q_table_simulation():
 if __name__ == "__main__":
     # start_training_simulation()
     # train_q_table()
-    # start_q_table_simulation()
+    start_q_table_simulation()
     #encoding = load_encoding()
     print(encoding)
     

@@ -8,12 +8,13 @@ from gym.spaces import Dict
 class MairioEnv(gym.Env):
 
     def __init__(self):
-        metadata = {'render.modes': ['human']}
+        metadata = {'render.modes': ['human'],"disable_env_checker":True}
 
-        self.action_space = spaces.Tuple((spaces.Discrete(2), spaces.Discrete(2), spaces.Discrete(
-            2), spaces.Discrete(2), spaces.Discrete(2), spaces.Discrete(2), spaces.Discrete(2), spaces.Discrete(2)))
+        self.action_space = spaces.Discrete(256)
+        print(self.action_space)
         self.observation_space = spaces.Box(
             low=-1, high=24, shape=([14, 16]), dtype=np.uint8)
+        #print(1,self.action_space.low, self.action_space.high)
         self.inputs = {"A": False,
                        "B": False,
                        "Y": False,
@@ -53,5 +54,5 @@ class MairioEnv(gym.Env):
         grid = get_data_grid()
         # print(grid.shape)
 
-        plt.imshow(grid)
-        plt.show()
+        obj = plt.imshow(grid)
+        plt.draw()

@@ -41,7 +41,7 @@ def train_q_table():
 
 
 def update_q_table(states, actions, rewards, q_table, encoding):
-    alpha = 0.01
+    alpha = 0.015
     gamma = 0.6
     index = 0
     for s, a, r in zip(states, actions, rewards):
