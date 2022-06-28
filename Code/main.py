@@ -31,7 +31,7 @@ def start_training_simulation():
     while frame < frame_count or not reset_flag:
 
         action_unedited = int_to_action(env.action_space.sample())
-        
+
         action = convert_action(action_unedited)
         state, reward, reset_flag = env.step(action)
         action_unedited_list.append(action_unedited)
@@ -60,14 +60,13 @@ def start_q_table_simulation():
 
     state = env.reset()
     state = tuple(state.flatten())
-    
+
     reset_flag = False
     run_number = 0
-    epsilon = 0.05
+    epsilon = 0.02
     frame = 0
     unknown_states = 0
     while frame < frame_count or not reset_flag:
-        print(frame)
         if random.uniform(0, 1) < epsilon:
             action_unedited = int_to_action(env.action_space.sample())
         else:
@@ -80,18 +79,27 @@ def start_q_table_simulation():
 
         action = convert_action(action_unedited)
         state, reward, reset_flag = env.step(action)
-
-        print(reward)
+        print(frame, reward)
         state = tuple(state.flatten())
         frame += 1
         action_unedited_list.append(action_unedited)
         state_list.append(state)
         reward_list.append(reward)
         if reset_flag:
-            for i in range(8):
-                reward_list[len(reward_list)-1] -= 3500
+            try:
+                for i in range(1, 10):
+                    reward_list[len(reward_list)-i] -= 1000
+            except IndexError:
+                pass
+            try:
+                for i in range(1, 15):
+                    reward_list[len(reward_list)-i] -= 4000
+            except IndexError:
+                pass
             q_table = update_q_table(
                 state_list, action_unedited_list, reward_list, q_table, encoding)
+            # gather_data(action_unedited_list, state_list,
+            # reward_list, run_number, frame)
             action_unedited_list = []
             state_list = []
             reward_list = []
@@ -110,5 +118,3 @@ if __name__ == "__main__":
     # train_q_table()
     start_q_table_simulation()
     #encoding = load_encoding()
-    print(encoding)
-    

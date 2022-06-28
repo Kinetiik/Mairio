@@ -1,3 +1,4 @@
 .DS_STORE
 .npy
 .npz
+./trainings_data

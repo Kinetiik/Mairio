@@ -475,7 +475,7 @@ end
 --Main Game Lopp
 
 function start_game() 
-    current_level = 2
+    current_level = 3
     start_level(current_level)
 
     running = true
@@ -500,6 +500,7 @@ function start_game()
         emu.frameadvance()
         set_inputs(inputs)
         emu.frameadvance()
+        
         if check_for_player_death() then
             reset_game(current_level)
             reward = -5000

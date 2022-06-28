@@ -7,8 +7,8 @@ from helper_functions_python import convert_to_string
 
 def train_q_table():
     states, actions, rewards = read_data()
-    alpha = 0.01
-    gamma = 0.6
+    alpha = 0.025
+    gamma = 0.5
     encoding = {}
     index = 0
     q_table = np.ndarray([256, 0])
@@ -41,8 +41,8 @@ def train_q_table():
 
 
 def update_q_table(states, actions, rewards, q_table, encoding):
-    alpha = 0.015
-    gamma = 0.6
+    alpha = 0.05
+    gamma = 0.5
     index = 0
     for s, a, r in zip(states, actions, rewards):
 
