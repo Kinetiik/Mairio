@@ -80,6 +80,8 @@ def start_q_table_simulation():
 
         action = convert_action(action_unedited)
         state, reward, reset_flag = env.step(action)
+
+        print(reward)
         state = tuple(state.flatten())
         frame += 1
         action_unedited_list.append(action_unedited)
@@ -87,7 +89,7 @@ def start_q_table_simulation():
         reward_list.append(reward)
         if reset_flag:
             for i in range(8):
-                reward_list[len(reward_list)-1] -= 35
+                reward_list[len(reward_list)-1] -= 3500
             q_table = update_q_table(
                 state_list, action_unedited_list, reward_list, q_table, encoding)
             action_unedited_list = []

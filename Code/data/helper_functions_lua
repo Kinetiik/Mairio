@@ -477,6 +477,7 @@ end
 function start_game() 
     current_level = 2
     start_level(current_level)
+
     running = true
     prior_position = 0
     while running do
