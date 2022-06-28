@@ -502,13 +502,13 @@ function start_game()
         emu.frameadvance()
         if check_for_player_death() then
             reset_game(current_level)
-            reward = -500
+            reward = -5000
             prior_position = 0
             write_outputs_to_file("rewards",{reward}, {"reward"})
 
         elseif check_for_level_end() then
             reset_game(current_level)
-            reward = 50000
+            reward = 5000
             prior_position = 0
             write_outputs_to_file("rewards",{reward}, {"reward"})
             
