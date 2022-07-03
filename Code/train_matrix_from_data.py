@@ -63,7 +63,7 @@ def update_q_table(states, actions, rewards, q_table, encoding):
 
         q_table[a][encoding[s]] = new_q_value
 
-    return q_table
+    return q_table, encoding
 
 
 def read_data():

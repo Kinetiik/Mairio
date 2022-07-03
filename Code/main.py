@@ -88,18 +88,18 @@ def start_q_table_simulation():
         if reset_flag:
             try:
                 for i in range(1, 10):
-                    reward_list[len(reward_list)-i] -= 1000
+                    reward_list[len(reward_list)-i] -= 500
             except IndexError:
                 pass
             try:
-                for i in range(1, 15):
-                    reward_list[len(reward_list)-i] -= 4000
+                for i in range(1, 5):
+                    reward_list[len(reward_list)-i] -= 2000
             except IndexError:
                 pass
-            q_table = update_q_table(
+            q_table, encoding = update_q_table(
                 state_list, action_unedited_list, reward_list, q_table, encoding)
-            # gather_data(action_unedited_list, state_list,
-            # reward_list, run_number, frame)
+            gather_data(action_unedited_list, state_list,
+                        reward_list, run_number, frame)
             action_unedited_list = []
             state_list = []
             reward_list = []
@@ -117,4 +117,4 @@ if __name__ == "__main__":
     # start_training_simulation()
     # train_q_table()
     start_q_table_simulation()
-    #encoding = load_encoding()
+    # encoding = load_encoding()
