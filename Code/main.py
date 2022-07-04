@@ -86,13 +86,13 @@ def start_q_table_simulation():
         state_list.append(state)
         reward_list.append(reward)
         if reset_flag:
-            """
+            
             try:
                 for i in range(1, 8):
                     reward_list[len(reward_list)-i] -= 2000
             except IndexError:
                 pass
-                """
+                
             q_table, encoding = update_q_table(
                 state_list, action_unedited_list, reward_list, q_table, encoding)
             # gather_data(action_unedited_list, state_list,

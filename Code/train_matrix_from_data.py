@@ -72,13 +72,14 @@ def read_data():
     actions = []
     rewards = []
     for file in files:
-        data = np.load(f"trainings_data/{file}")
+        if file != ".DS_Store":
+            data = np.load(f"trainings_data/{file}", allow_pickle=True)
 
-        states.append(data["state"])
-        actions.append(data["action"])
-        rewards.append(data["reward"])  # TODO Fix reward
+            states.append(data["state"])
+            actions.append(data["action"])
+            rewards.append(data["reward"])  # TODO Fix reward
 
-    return np.asarray(states, dtype=object), np.asarray(actions, dtype=object), np.asarray(rewards, dtype=object)
+        return np.asarray(states, dtype=object), np.asarray(actions, dtype=object), np.asarray(rewards, dtype=object)
 
 
 if __name__ == "__main__":

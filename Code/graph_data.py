@@ -32,5 +32,5 @@ def animate_func(i):
 anim = animation.FuncAnimation(
     fig, animate_func, frames=seconds*fps, interval=1000/fps,)
 
-anim.save("computer_vision.gif", fps=fps)
+anim.save("computer_vision2.gif", fps=fps)
 plt.show(anim)
