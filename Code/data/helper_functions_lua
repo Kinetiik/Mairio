@@ -500,10 +500,7 @@ function start_game()
         emu.frameadvance()
         set_inputs(inputs)
         emu.frameadvance()
-        set_inputs(inputs)
-        emu.frameadvance()
-        set_inputs(inputs)
-        emu.frameadvance()
+       
         
         if check_for_player_death() then
             reset_game(current_level)

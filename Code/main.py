@@ -63,7 +63,7 @@ def start_q_table_simulation():
 
     reset_flag = False
     run_number = 0
-    epsilon = 0.02
+    epsilon = 0.05
     frame = 0
     unknown_states = 0
     while frame < frame_count or not reset_flag:
@@ -86,20 +86,17 @@ def start_q_table_simulation():
         state_list.append(state)
         reward_list.append(reward)
         if reset_flag:
+            """
             try:
-                for i in range(1, 10):
-                    reward_list[len(reward_list)-i] -= 500
-            except IndexError:
-                pass
-            try:
-                for i in range(1, 5):
+                for i in range(1, 8):
                     reward_list[len(reward_list)-i] -= 2000
             except IndexError:
                 pass
+                """
             q_table, encoding = update_q_table(
                 state_list, action_unedited_list, reward_list, q_table, encoding)
-            gather_data(action_unedited_list, state_list,
-                        reward_list, run_number, frame)
+            # gather_data(action_unedited_list, state_list,
+            # reward_list, run_number, frame)
             action_unedited_list = []
             state_list = []
             reward_list = []
