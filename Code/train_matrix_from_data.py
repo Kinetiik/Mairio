@@ -3,12 +3,12 @@ from config import frame_count
 import os
 from encoding import *
 from helper_functions_python import convert_to_string
+from config import alpha, gamma
 
 
 def train_q_table():
     states, actions, rewards = read_data()
-    alpha = 0.025
-    gamma = 0.5
+
     encoding = {}
     index = 0
     q_table = np.ndarray([256, 0])
