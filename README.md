@@ -4,6 +4,9 @@ Erstjahresprojekt: Reinforcement Learning in virtuellen Umgebungen
 
 ANLEITUNG:
 
+WICHTIG:
+Vor dem ersten Anlauf muss neben den Libraries auch das custom Gym-environment installiert werden. Dazu im Terminal in den Unterordner "mairio/Code/gym-mairio" navigieren und per "pip install -e ." installieren.
+
 1. Im Ordner "bizhawk-2-8" das Programm "Emuhawk.exe" starten
 
 2. Unter dem Reiter "Tools" die Lua-Konsole öffnen

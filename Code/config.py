@@ -1,4 +1,4 @@
-frame_count = 15000
-gamma = 0.5
-epsilon = 0.1
-alpha = 0.01
+frame_count = 15000  # duration in frame
+gamma = 0.5  # learning parameter, how much of the maximum to include in q_value
+epsilon = 0.1  # amount of random actions
+alpha = 0.01  # learning factor

@@ -81,7 +81,4 @@ def start_q_table_simulation():
 
 
 if __name__ == "__main__":
-    # start_training_simulation()
-    # train_q_table()
     start_q_table_simulation()
-    # encoding = load_encoding()
