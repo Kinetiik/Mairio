@@ -3,7 +3,7 @@ from config import frame_count
 import os
 from encoding import *
 from helper_functions_python import convert_to_string
-from config import alpha, gamma
+from config import alpha
 
 
 def train_q_table():
@@ -42,7 +42,7 @@ def train_q_table():
 
 def update_q_table(states, actions, rewards, q_table, encoding):
     alpha = 0.01
-    gamma = 0.6
+    
     index = 0
     for s, a, r in zip(states, actions, rewards):
 
@@ -56,10 +56,8 @@ def update_q_table(states, actions, rewards, q_table, encoding):
         a = int(binary, 2)
 
         q_value = q_table[a][encoding[s]]
-        q_transposed = np.transpose(q_table)
-        max_value = np.max(q_transposed[encoding[s]])
-        new_q_value = (1 - alpha) * q_value + alpha * \
-            (r + gamma * max_value)  # Todo change, record own runs
+        
+        new_q_value = (1 - alpha) * q_value + alpha * r # Todo change, record own runs
 
         q_table[a][encoding[s]] = new_q_value
 
