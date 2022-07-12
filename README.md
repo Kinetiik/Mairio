@@ -22,6 +22,6 @@ Aktuell nur unter Windows!
 5. Wenn Lua jetzt keine Rückmeldung gibt ist alles richtig. Jetzt Python Datei "Code/main.py" ausführen
 
 Optional:
-In config.py die Parameter anpassen, oder im Lua Skript "Code/Data/helper_functions_lua.lua" in Zeile 478 die Variable "current_level" ändern, um ein anderes Startlevel zu wählen
+In config.py die Parameter anpassen, oder im Lua Skript "Code/Data/helper_functions_lua.lua" in Zeile 478 die Variable "current_level" ändern, um ein anderes Startlevel zu wählen (Level 1&2 sind bereits implementiert. Eigene Level können durch das setzten eigener Safestates allerdings ebenfalls ausprobiert werden)
 
 Wichtig: Wird das Lua-Skript eigenständig ausgeführt oder das Python-skript fertig durchgelaufen kann der Emulator abstürzen. Am besten einfach main.py neu ausführen, ohne den Emulator anzufassen
